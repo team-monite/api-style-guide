@@ -1,0 +1,8 @@
+# ################################################################################################
+# Section 11: Webhooks                                                                           #
+# This ruleset covers the Webhook rules from the Monite API Style guide                          #
+# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-11-webhooks #
+# ################################################################################################
+
+rules:
+

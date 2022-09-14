@@ -1,0 +1,25 @@
+# #####################################################################################################
+# Section 6: REST & Resources                                                                         #
+# This ruleset covers the REST & Resources rules from the Monite API Style guide                      #
+# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-6-rest-resources #
+# #####################################################################################################
+
+rules:
+
+  monite-rest-no-crud-in-uri-names:
+    message: SHOULD NOT use CRUD function names in URIs
+    severity: error
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: ^\/(get|put|post|patch|options|head|trace|update|delete|create|list).*
+
+  monite-rest-limited-resource-levels:
+    message: We want to have a limited number of sub-resource levels
+    severity: warn
+    given: "$.paths.*~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^/[^/]*((/{[^}]*})*/[^/]*(/{[^}]*})*){0,3}/?$"

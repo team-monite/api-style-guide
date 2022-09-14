@@ -1,0 +1,70 @@
+# ###########################################################################################
+# Section 5: URIs                                                                           #
+# This ruleset covers the URI rules from the Monite API Style guide                         #
+# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-5-uris #
+# ###########################################################################################
+
+rules:
+
+  monite-uri-no-backslash:
+    message: The backslash is not allowed, use the forward slash ("/") instead
+    severity: error
+    given: "$.paths.*~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: \\
+
+  monite-uri-no-empty-path-segments:
+    message: Empty path segments are not allowed
+    severity: error
+    given: "$.paths.*~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: //
+
+  monite-uri-no-uppercase:
+    message: Uppercase is not allowed in path URIs
+    severity: error
+    given: "$.paths.*~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: .*[A-Z]+.*
+
+  monite-uri-no-api-suffix:
+    message: Don't use "api" in a path, should be part of the host instead
+    severity: error
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: /.*(api\b).*/i
+
+  monite-uri-no-file-extensions:
+    message: Paths must not end with file types such as .json and .xml. Use response types instead.
+    severity: error
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: .(\.json|\.xml|\.html|\.txt)$
+
+  monite-uri-path-snake-case:
+    message: All resource names and actions must be lower snake_case.
+    severity: error
+    given: "$.paths.*~"
+    then:
+      function: pattern
+      functionOptions:
+        match: ^(([\/a-z][_a-z0-9\/]*)?({[^}]*})?)+$
+
+  monite-uri-query-parameters-snake-case:
+    message: Query parameters must be snake_case
+    severity: error
+    given: "$.paths.*.*.parameters[?(@.in=='query')].name"
+    then:
+      function: pattern
+      functionOptions:
+        match: ^[a-z][_a-z0-9]*$

@@ -1,0 +1,16 @@
+# ####################################################################################################
+# Section 10: HTTP headers                                                                           #
+# This ruleset covers the HTTP headers rules from the Monite API Style guide                         #
+# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-10-http-headers #
+# ####################################################################################################
+
+rules:
+
+  monite-headers-kebab-case:
+    message: Header parameters must be kebab-case
+    severity: error
+    given: "$.paths.*.*.parameters[?(@.in=='header')].name"
+    then:
+      function: pattern
+      functionOptions:
+        match: ^([a-z]*)(-[a-z0-9][a-z0-9]*)*$

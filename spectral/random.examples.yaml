@@ -1,0 +1,19 @@
+
+rules:
+
+  name-camel-case:
+    message: Name should be camelCased
+    severity: error
+    given: "$.name"
+    then:
+      function: casing
+      functionOptions:
+        type: camel
+
+  operation-id-snake-case:
+    message: Your operations IDs need to be camel case
+    given: "$.paths.*[get,post,patch,put,delete].operationId"
+    then:
+      function: casing
+      functionOptions:
+        type: snake

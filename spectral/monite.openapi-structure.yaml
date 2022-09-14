@@ -1,0 +1,166 @@
+# ##########################################################
+# OpenAPI validation                                       #
+# This ruleset validates the elements of the OpenAPI file  #
+# to make sure it's clear and consistent                   #
+# ##########################################################
+
+rules:
+
+  monite-openapi-version-303:
+    message: The OpenAPI format must be 3.0.3
+    severity: error
+    given: "$"
+    then:
+      field: openapi
+      function: pattern
+      functionOptions:
+        match: 3.0.3
+
+  monite-openapi-path-version-number:
+    message: Version numbers (like "/v1") should be in "servers", not in "paths"
+    severity: warn
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: /((?:\/)(v|version)[0-9]{1,3}(?:\/)?)/i
+
+  monite-openapi-path-id-parameter-name-format:
+    message: Path parameter names should be "resource_id", not just "id"
+    severity: warn
+    given: "$..parameters[?(@.in == 'path')]"
+    then:
+      field: name
+      function: pattern
+      functionOptions:
+        notMatch: \b(id|Id|ID|iD)\b
+
+  monite-openapi-schemas-and-examples-in-components:
+    message: Request body schema should only reference components
+    severity: error
+    given:
+      - "$..requestBody.content..*.schema.$ref"
+      - "$..responses.*.content..*.schema.$ref"
+      - "$..responses.*.content..*.examples.$ref"
+    then:
+      function: pattern
+      functionOptions:
+        match: "#/components/"
+
+  monite-openapi-schema-in-name:
+    message: The schema name should not have "Schema" in it, this is redundant
+    severity: info
+    given: "$.components.schemas.*~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: (Schema)
+
+  monite-openapi-security-schemes-defined:
+    message: Security schemes are missing in this OpenAPI
+    severity: error
+    given: "$..components"
+    then:
+      field: securitySchemes
+      function: truthy
+
+  monite-component-names-valid-characters:
+    message: All component name MUST consist of the following characters `A..Z a..z 0..9 . _ -`
+    severity: error
+    given:
+      - "$.components.schemas[*]~"
+      - "$.components.parameters[*]~"
+      - "$.components.securitySchemes[*]~"
+      - "$.components.requestBodies[*]~"
+      - "$.components.responses[*]~"
+      - "$.components.headers[*]~"
+      - "$.components.examples[*]~"
+      - "$.components.links[*]~"
+      - "$.components.callbacks[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: ^[a-zA-Z0-9._-]+$
+
+  monite-openapi-info-description-max-length:
+    message: The info object description should be less than 200 characters
+    severity: warn
+    given: "$.info"
+    then:
+      field: description
+      function: length
+      functionOptions:
+        max: 200
+
+  monite-openapi-info-summary-max-length:
+    message: The info object summary should be less than 30 characters
+    severity: warn
+    given: "$.info"
+    then:
+      field: summary
+      function: length
+      functionOptions:
+        max: 30
+
+  monite-openapi-tags-name-sentence-case:
+    message: Tag names should start with a capital letter
+    severity: warn
+    given: "$.tags[*]"
+    then:
+      field: name
+      function: pattern
+      functionOptions:
+        match: ^[A-Z].*
+
+  monite-openapi-operation-summary:
+    message: Each operations should have a summary
+    severity: warn
+    given: "$.paths.*[get,post,patch,put,delete,options,head,trace]"
+    then:
+      field: summary
+      function: truthy
+
+  monite-openapi-operation-summary-sentence-case:
+    message: Operation summaries should start with a capital letter
+    severity: warn
+    given: "$.paths.*.*.summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: ^[A-Z].*
+
+  monite-openapi-error-response-body:
+    message: Every error response should have a response body with content
+    severity: warn
+    given: "$.paths.[*].responses[?(@property.match(/^(4|5)/))]"
+    then:
+      field: content
+      function: truthy
+
+  monite-openapi-response-body-200x:
+    message: All 200x responses except for 204 MUST include a response body
+    severity: warn
+    given: "$.paths.[?( @property === '200' || @property === '201' || @property === '202')]"
+    then:
+      field: content
+      function: truthy
+
+  monite-openapi-response-204-no-body:
+    message: All 204 responses must not have a response body
+    severity: warn
+    given: "$.paths.[?( @property === '204')]"
+    then:
+      field: content
+      function: falsy
+
+  monite-openapi-number-boundaries:
+    message: Numeric types need to have their minimum and maximum defined
+    severity: info
+    given:
+      - $..properties.[?(@.type=="number")]
+      - $..properties.[?(@.type=="integer")]
+    then:
+      - field: maximum
+        function: defined
+      - field: minimum
+        function: defined

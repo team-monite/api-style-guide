@@ -1,0 +1,70 @@
+# #############################################################################################################
+# Section 4: Data types and formats                                                                           #
+# This ruleset covers the Data Types rules from the Monite API Style guide                                    #
+# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-4-data-types-and-formats #
+# #############################################################################################################
+
+rules:
+
+  monite-data-missing-integer-format:
+    message: Format is not specified for an integer property
+    severity: warn
+    given: "$.paths.*.*..schema..properties..[?(@.type=='integer')]"
+    then:
+      field: format
+      function: defined
+
+  monite-data-missing-number-format:
+    message: Format is not specified for a number property
+    severity: warn
+    given: "$.paths.*.*..schema..properties..[?(@.type=='number')]"
+    then:
+      field: format
+      function: defined
+
+  monite-data-incorrect-integer-format:
+    message: "Incorrect integer format: {{value}}. Must be one of: int32, int64"
+    severity: error
+    given: '$..[?(@.type=="integer")]'
+    then:
+      field: format
+      function: enumeration
+      functionOptions:
+        values:
+          - int32
+          - int64
+
+  monite-data-incorrect-number-format:
+    message: "Incorrect integer format: {{value}}. Must be one of: float, double"
+    severity: error
+    given: '$..[?(@.type=="number")]'
+    then:
+      field: format
+      function: enumeration
+      functionOptions:
+        values:
+          - float
+          - double
+
+  monite-data-incorrect-string-format:
+    message: "Incorrect integer format: {{value}}. See https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#must-use-only-allowed-data-types"
+    severity: error
+    given: '$..[?(@.type=="string")]'
+    then:
+      field: format
+      function: enumeration
+      functionOptions:
+        values:
+          - date-time
+          - date
+          - time
+          - email
+          - uri
+          - uuid
+          - base64
+          - binary
+          - regex
+          - lang
+          - country
+          - currency
+

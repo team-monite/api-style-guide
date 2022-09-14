@@ -1,0 +1,29 @@
+# ####################################################################################################
+# Section 13: Performance                                                                            #
+# This ruleset covers the Performance rules from the Monite API Style guide                          #
+# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-13-performance  #
+# ####################################################################################################
+
+rules:
+
+  # TO DO
+  monite-performance-rate-limiting:
+    message: Rate limiting should be supported
+    severity: warn
+    given: "$.[responses][?(@property[0] == '2' )][headers]"
+    then:
+      - functionOptions:
+          properties:
+            - X-RateLimit-Limit
+            - RateLimit-Limit
+        function: xor
+      - functionOptions:
+          properties:
+            - X-RateLimit-Remaining
+            - RateLimit-Remaining
+        function: xor
+      - functionOptions:
+          properties:
+            - X-RateLimit-Reset
+            - RateLimit-Reset
+        function: xor

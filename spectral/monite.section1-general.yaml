@@ -1,0 +1,24 @@
+# ##############################################################################################
+# Section 1: General                                                                           #
+# This ruleset covers the General rules from the Monite API Style guide                        #
+# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-1-general #
+# ##############################################################################################
+
+rules:
+
+  monite-general-exposing-internals:
+    message: Potentially exposing internals (words "private" or "internal" spotted)
+    severity: warn
+    given:
+      - "$.info.title"
+      - "$.info.summary"
+      - "$.info.description"
+      - "$.paths.*~"
+      - "$.paths.*.*.parameters[?(@.in==='query' || @.in==='path' || @.in==='cookie')].name"
+      - "$.paths.*.*.parameters[?(@.in==='query' || @.in==='path' || @.in==='cookie')].description"
+      - "$.components.schemas.*~"
+      - "$..properties.*~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: (internal|Internal|private|Private)

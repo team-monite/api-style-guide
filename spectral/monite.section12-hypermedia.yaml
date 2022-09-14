@@ -1,0 +1,8 @@
+# ##################################################################################################
+# Section 12: Hypermedia                                                                           #
+# This ruleset covers the Hypermedia rules from the Monite API Style guide                         #
+# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-12-hypermedia #
+# ##################################################################################################
+
+rules:
+

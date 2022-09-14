@@ -1,0 +1,204 @@
+# ######################################################################################################################
+# Section 9: HTTP responses                                                                                            #
+# This ruleset covers the HTTP responses rules from the Monite API Style guide                                         #
+# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-9-http-status-codes-and-responses #
+# ######################################################################################################################
+
+rules:
+
+  monite-responses-default-response:
+    message: Operation does not contain a default response
+    severity: off
+    given: $.paths.*.*.responses
+    then:
+      field: default
+      function: truthy
+
+  monite-responses-standard-status-codes:
+    message: Responses must return only standard HTTP status codes
+    severity: error
+    given: $.paths.*.*.responses.*~
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - '100'
+          - '101'
+          - '200'
+          - '201'
+          - '202'
+          - '203'
+          - '204'
+          - '205'
+          - '206'
+          - '207'
+          - '300'
+          - '301'
+          - '302'
+          - '303'
+          - '304'
+          - '305'
+          - '307'
+          - '400'
+          - '401'
+          - '402'
+          - '403'
+          - '404'
+          - '405'
+          - '406'
+          - '407'
+          - '408'
+          - '409'
+          - '410'
+          - '411'
+          - '412'
+          - '413'
+          - '414'
+          - '415'
+          - '416'
+          - '417'
+          - '422'
+          - '423'
+          - '426'
+          - '428'
+          - '429'
+          - '431'
+          - '500'
+          - '501'
+          - '502'
+          - '503'
+          - '504'
+          - '505'
+          - '511'
+          - default
+
+  monite-responses-error-not-rfc7807:
+    message: All errors must follow RFC 7807
+    severity: off
+    given: "$.paths.[*].responses[?(@property.match(/^(4|5)/))].content.*~"
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - application/problem+json
+
+  monite-responses-error-unknown-format:
+    description: All error responses must be either RFC 7807 or application/json or application/xml.
+    severity: error
+    given: "$.paths.[*].responses[?(@property.match(/^(4|5)/))].content.*~"
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - application/problem+json
+          - application/json
+          - application/xml
+
+  monite-responses-media-types-200:
+    message: Any 200 response SHOULD only return media types as defined
+    severity: warn
+    given: "$.paths.[*].responses[?(@property.match(/^(2)/))].content.*~"
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - text/csv
+          - application/zip
+          - application/json
+          - application/xml
+          - multipart/form-data
+
+  monite-responses-get-no-409:
+    message: GET responses should not include a 409 response
+    severity: warn
+    given: "$.paths.*[?(@property === 'get' && @.responses && @.responses['409'])]"
+    then:
+      function: falsy
+
+  monite-responses-delete-204-status-code:
+    message: A DELETE operation should have a 204 status code with the response
+    severity: warn
+    given: "$.paths[*].delete.responses"
+    then:
+      field: '204'
+      function: truthy
+
+  monite-responses-delete-500-status-code:
+    message: A DELETE operation should have a 500 status code with the response
+    severity: warn
+    given: "$.paths[*].delete.responses"
+    then:
+      field: '500'
+      function: truthy
+
+  monite-responses-get-200-media-type:
+    message: A GET operation should have an application/json media type for 200 response
+    severity: error
+    given: "$paths.get.responses.200.content"
+    then:
+      field: application/json
+      function: truthy
+
+  monite-responses-get-200-status-code:
+    message: A GET operation should have a 200 status code for the response
+    severity: warn
+    given: "$.paths[*].get.responses"
+    then:
+      field: '200'
+      function: truthy
+
+  monite-responses-get-500-problem-json-media-type:
+    message: A POST operation should have an application/problem+json media type for 500 response
+    severity: error
+    given: "$paths.post.responses.500.content"
+    then:
+      field: application/problem+json
+      function: truthy
+
+  monite-responses-get-500-status-code:
+    message: A GET operation should have a 500 status code for the response
+    severity: warn
+    given: "$.paths[*].get.responses"
+    then:
+      field: '500'
+      function: truthy
+
+  monite-responses-patch-204-no-body:
+    message: A PATCH operation should not have a response body
+    severity: error
+    given: "$paths.patch.responses.204"
+    then:
+      field: content
+      function: falsy
+
+  monite-responses-post-201-media-type:
+    message: POST responses should have a JSON body
+    severity: error
+    given: "$paths.post.responses.201.content"
+    then:
+      field: application/json
+      function: truthy
+
+  monite-responses-post-201-status-code:
+    message: A POST operation should have a 201 status code for the response
+    severity: warn
+    given: "$.paths[*].post.responses"
+    then:
+      field: '201'
+      function: truthy
+
+  monite-responses-put-204-status-code:
+    message: A PUT operation should have a 204 status code for the response
+    severity: warn
+    given: "$.paths[*].delete.responses"
+    then:
+      field: '204'
+      function: truthy
+
+  monite-responses-put-500-status-code:
+    message: A PUT operation should have a 500 status code for the response
+    severity: warn
+    given: "$.paths[*].put.responses"
+    then:
+      field: '500'
+      function: truthy

@@ -1,0 +1,80 @@
+# ###############################################################################################
+# Section 2: Language                                                                           #
+# This ruleset covers the Language rules from the Monite API Style guide                        #
+# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-2-language #
+# ###############################################################################################
+
+functions:
+  - check-spelling
+
+rules:
+
+  monite-language-spelling-names:
+    message: "{{error}}"
+    severity: error
+    given:
+      - "$.paths.*~"
+      - "$.paths.*.*.parameters[?(@.in==='query' || @.in==='path' || @.in==='cookie')].name"
+      - "$..properties.*~"
+    then:
+      function: check-spelling
+
+  monite-language-spelling-texts:
+    message: "{{error}}"
+    severity: warn
+    given:
+      - "$.info.title"
+      - "$.info.summary"
+      - "$.info.description"
+      - "$.paths.*.*.parameters[?(@.in==='query' || @.in==='path' || @.in==='cookie')].description"
+      - "$.components.schemas.*~"
+      - "$..properties.*.description"
+    then:
+      function: check-spelling
+
+  monite-language-avoid-jargon:
+    message: Try to avoid jargon and use commonly used terms instead
+    severity: warn
+    given:
+      - "$.info.title"
+      - "$.info.summary"
+      - "$.info.description"
+      - "$.paths.*~"
+      - "$.paths.*.*.parameters[?(@.in==='query' || @.in==='path' || @.in==='cookie')].name"
+      - "$.paths.*.*.parameters[?(@.in==='query' || @.in==='path' || @.in==='cookie')].description"
+      - "$.components.schemas.*~"
+      - "$..properties.*~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: (pan)
+
+  monite-language-non-inclusive:
+    message: Non-inclusive terms have been found
+    severity: error
+    given:
+      - "$.info.title"
+      - "$.info.summary"
+      - "$.info.description"
+      - "$.paths.*~"
+      - "$.paths.*.*.parameters[?(@.in==='query' || @.in==='path' || @.in==='cookie')].name"
+      - "$.paths.*.*.parameters[?(@.in==='query' || @.in==='path' || @.in==='cookie')].description"
+      - "$.components.schemas.*~"
+      - "$..properties.*~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: (blacklist|Blacklist|black_list|whitelist|Whitelist|white_list|slave|Slave)
+
+  monite-language-filler-words:
+    message: Filler words
+    severity: warn
+    given:
+      - "$.paths.*~"
+      - "$.paths.*.*.parameters[?(@.in==='query' || @.in==='path' || @.in==='cookie')].name"
+      - "$.components.schemas.*~"
+      - "$..properties.*~"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: (_info|_details)

@@ -1,0 +1,23 @@
+# ####################################################################################################
+# Section 8: HTTP requests                                                                           #
+# This ruleset covers the HTTP requests rules from the Monite API Style guide                        #
+# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-8-http-requests #
+# ####################################################################################################
+
+rules:
+
+  monite-requests-get-no-request-body:
+    message: There must be no request body for GET
+    severity: error
+    given: "$.paths.*.get"
+    then:
+      field: requestBody
+      function: falsy
+
+  monite-requests-delete-no-request-body:
+    message: There must be no request body for DELETE
+    severity: error
+    given: "$.paths.*.delete"
+    then:
+      field: requestBody
+      function: falsy

@@ -1,0 +1,26 @@
+# ###################################################################################################
+# Section 7: JSON payload                                                                           #
+# This ruleset covers the JSON payload rules from the Monite API Style guide                        #
+# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-7-json-payload #
+# ###################################################################################################
+
+functions:
+  - is-object-schema
+
+rules:
+
+  monite-json-root-json-objects:
+    message: Requests and responses must be JSON objects
+    severity: warn
+    given: "$.paths.*.*[responses,requestBody]..content..schema"
+    then:
+      function: is-object-schema
+
+  monite-json-field-names-snake-case:
+    message: Field name must be lower snake_case
+    severity: error
+    given: "$.paths.*.*[responses,requestBody]..content..schema..properties.*~"
+    then:
+      function: pattern
+      functionOptions:
+        match: ^[a-z_][a-z_0-9]*$
