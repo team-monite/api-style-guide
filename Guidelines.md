@@ -113,3 +113,63 @@ Similar to the [abstraction principle in OOP](https://en.wikipedia.org/wiki/Obje
 
 _Spectral rule_: [monite-general-exposing-internals](spectral/monite.section1-general.yaml)
 
+
+## Section 2: Language
+
+### MUST use U.S. English for naming
+
+We use the U.S. English (or American English) for all the parts of our APIs (like API URIs, field names, parameter names, header names, etc.).
+
+To decide whether a certain term belongs to the U.S. English or not, we consult with [Wikipedia](https://en.wikipedia.org/wiki/American_and_British_English_spelling_differences) and most renowned English dictionaries.
+
+<details>
+  <summary>Why</summary>
+  <p>The U.S. version of English is now being commonly used in modern software products and programming frameworks. On the contrary, British English definitely has a much smaller scope in Tech. As for using languages other than English, we don't want to use them in our API names because this might cause a lot of confusion and other problems with API adoption.</p>
+</details>
+
+_Spectral rules_:
+
+* [monite-language-spelling-names](spectral/monite.section2-language.yaml)
+* [monite-language-spelling-texts](spectral/monite.section2-language.yaml)
+
+
+### SHOULD avoid industry jargon and use simple, unambiguous terms
+
+We should strive to create our API that can be consumed by a wide variety of audiences, with no or very limited expertise in our API's business domain.
+
+For this, we should try to use the terms that are easier to follow, easier to understand, and more common in different parts of the world.
+
+| :x: &nbsp; Not recommended | :+1: &nbsp; Recommended |
+|----------------------------|-------------------------|
+| `card.pan`                 | `card.number`           |
+
+_Spectral rule_: [monite-language-avoid-jargon](spectral/monite.section2-language.yaml)
+
+
+### SHOULD use inclusive and bias-free language and API design
+
+The language used in our APIs must reflect the modern understanding of inclusive, gender-neutral and bias-free communication. We should constantly educate ourselves on the topics of diversity, equity and inclusion, and make sure our APIs represent these values.
+
+For more information on this, read [Bias-free communications](https://docs.microsoft.com/en-us/style-guide/bias-free-communication) and [Avoid unnecessarily gendered language](https://developers.google.com/style/inclusive-documentation).
+
+| :x: &nbsp; Not recommended           | :+1: &nbsp; Recommended                                                                         | Comment                                                                                                        |
+|--------------------------------------|-------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| `blackList`, `whiteList`             | `blockList`, `allowList`                                                                        |                                                                                                                |
+| `master/slave`                       | `primary/replica` (in case of identical instances) or `primary/secondary` (for other use cases) |                                                                                                                |
+| `master`                             | `master` -> `main` (for example, see [GitHub](https://github.com/github/renaming))              |                                                                                                                |
+| `person.gender` = {`male`, `female`} | `shopper.gender` = {`male`, `female`, `unknown`, `unspecified`}                                 | Provide more options, and also critically assess if collecting gender information is even needed in this case. |
+
+_Spectral rule_: [monite-language-non-inclusive](spectral/monite.section2-language.yaml)
+
+
+### SHOULD NOT use "filler" words in field names
+
+When naming fields or other elements of an API, avoid using unnecessary filler words like "code", "details", or "info". Usually the same name works well without additional filler words, which are redundant in most of the cases.
+
+| :x: &nbsp; Not recommended | :+1: &nbsp; Recommended |
+|----------------------------|-------------------------|
+| `company_info`             | `company`               |
+| `address_details`          | `address`               |
+| `country_code`             | `country`               |
+
+_Spectral rule_: [monite-language-filler-words](spectral/monite.section2-language.yaml)
