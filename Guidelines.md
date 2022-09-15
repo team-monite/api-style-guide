@@ -48,9 +48,9 @@ When working on a new product on our platform, or expanding an existing product,
   <summary>See also</summary>
   <ul>
      <li><a href="https://swagger.io/resources/articles/adopting-an-api-first-approach/">Understanding the API-First Approach to Building Products</a></li>
-     <li>[The Business Value of API-First Design](https://auth0.com/blog/the-business-value-of-api-first-design/)</li>
-     <li>[API-First vs. API Design-First: A Comprehensive Guide](https://blog.stoplight.io/api-first-vs.-api-design-first-a-comprehensive-guide)</li>
-     <li>[2021 State of the API Report from Postman](https://www.postman.com/state-of-api/api-first-strategies/#api-first-strategies)</li>
+     <li><a href="https://auth0.com/blog/the-business-value-of-api-first-design/">The Business Value of API-First Design</a></li>
+     <li><a href="https://blog.stoplight.io/api-first-vs.-api-design-first-a-comprehensive-guide">API-First vs. API Design-First: A Comprehensive Guide</a></li>
+     <li><a href="https://www.postman.com/state-of-api/api-first-strategies/#api-first-strategies">2021 State of the API Report from Postman</a></li>
   </ul>
 </details>
 
@@ -76,9 +76,9 @@ Our public APIs must follow the [REST architectural style](https://en.wikipedia.
 <details>
   <summary>See also</summary>
   <ul>
-    <li>[REST on Wikipedia](https://en.wikipedia.org/wiki/Representational_state_transfer)</li>
-    <li>[REST Dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm) by Roy Fielding</li>
-    <li>[REST in Practice](https://www.amazon.com/REST-Practice-Hypermedia-Systems-Architecture/dp/0596805829/)</li>
+    <li><a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST on Wikipedia</a></li>
+    <li><a href="https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm">REST Dissertation by Roy Fielding</a></li>
+    <li><a href="https://www.amazon.com/REST-Practice-Hypermedia-Systems-Architecture/dp/0596805829/">REST in Practice</a></li>
   </ul>
 </details>
 
@@ -95,9 +95,9 @@ In practice, this means that our APIs should not expose resources, parameters, a
 <details>
   <summary>See also</summary>
   <ul>
-    <li>[tolerant reader](https://martinfowler.com/bliki/TolerantReader.html)</li>
-    <li>[OWASP: Attack Surface Analysis](https://cheatsheetseries.owasp.org/cheatsheets/Attack_Surface_Analysis_Cheat_Sheet.html)</li>
-    <li>[RFC 1122](https://datatracker.ietf.org/doc/html/rfc1122)</li>
+    <li><a href="https://martinfowler.com/bliki/TolerantReader.html">tolerant reader</a></li>
+    <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Attack_Surface_Analysis_Cheat_Sheet.html">OWASP: Attack Surface Analysis</a></li>
+    <li><a href="https://datatracker.ietf.org/doc/html/rfc1122">RFC 1122</a></li>
  </ul>
 </details>
 
