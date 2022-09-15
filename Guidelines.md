@@ -217,3 +217,134 @@ For sensitive data like [PCI](https://www.pcisecuritystandards.org/) or [PII](ht
 
 _Spectral rule_: [monite-security-no-secrets-in-path-or-query-parameters](spectral/monite.section3-security.yaml)
 
+
+## Section 4: Data types and formats
+
+### MUST use only allowed data types
+
+To achieve high consistency between different parts of our API and improve its interoperability, we want to limit the variety of data types we use for API elements (request and response fields, parameters and HTTP headers) and use one of the allowed data types.
+
+We achieve this by mostly using data types and formats commonly adopted by other industry specifications, such as [JSON Schema](https://datatracker.ietf.org/doc/html/draft-bhutton-json-schema-validation-00#section-7.3), [OpenAPI](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#data-types), and various ISO and IETF standards.
+
+| **Type**           | **OpenAPI type** | **OpenAPI format** | **Description**                                                                                                                                   | **Example**                            |
+|--------------------|------------------|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
+| Boolean            | `boolean`        |                    | One of the two Boolean values (**true** or **false**).                                                                                            | true                                   |
+| Object             | `object`         |                    | A complex object consisting of one or several fields.                                                                                             |                                        |
+| Array              | `array`          |                    | An array containing values of the same type.                                                                                                      |                                        |
+| Integer            | `integer`        | `int32`            | A 4-byte signed integer in the range -2,147,483,648 to 2,147,483,647 (inclusive).                                                                 | 7721071004                             |
+| Long integer       | `integer`        | `int64`            | A 8-byte signed integer in the range -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 (inclusive).                                         | 772107100456824                        |
+| Float number       | `number`         | `float`            | A single precision decimal number (**binary32** in [IEEE 754-2008/ISO 60559:2011](https://en.wikipedia.org/wiki/IEEE_754)).                       | 3.1415927                              |
+| Double             | `number`         | `double`           | A double precision decimal number (**binary64** in [IEEE 754-2008/ISO 60559:2011](https://en.wikipedia.org/wiki/IEEE_754)).                       | 3.141592653589793                      |
+| Decimal            | `string`         | `decimal`          | An arbitrarily precise signed decimal number.                                                                                                     | "3.141592653589793238462643383279"     |
+| String             | `string`         |                    | An arbitrary string of characters.                                                                                                                | "Monite rocks!"                        |
+| Date & time        | `string`         | `date-time`        | A timestamp following [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339) (a subset of [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)). | "2022-07-17T08:26:40.252Z"             | 
+| Date               | `string`         | `date`             | A date following [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339) (a subset of [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)).      | "2022-07-17"                           |
+| Time               | `string`         | `time`             | Time value following [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339) (a subset of [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)).  | "08:26:40.252Z"                        |
+| Email              | `string`         | `email`            | An email address following [RFC 5322](https://tools.ietf.org/html/rfc5322).                                                                       | "someone@example.com"                  | 
+| URI                | `string`         | `uri`              | A web URI following [RFC 3986](https://tools.ietf.org/html/rfc3986).                                                                              | "https://www.example.com"              |
+| UUID               | `string`         | `uuid`             | A Universally Unique Identifier following [RFC 4122](https://tools.ietf.org/html/rfc4122).                                                        | "279fc665-d04d-4dba-bcad-17c865489dfa" |
+| Base64 string      | `string`         | `base64`           | A string that contains Base64-encoded data following [RFC 4648 Section 4](https://www.rfc-editor.org/rfc/rfc4648#section-4).                      | "VGVzdA=="                             |
+| Binary             | `string`         | `binary`           | Arbitrary binary data, such as the contents of an image file. Typically used for file uploads and downloads.                                      |                                        |
+| Regular expression | `string`         | `regex`            | A regular expression following [ECMA 262](http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf).                             | "^[a-z0-9]+$"                          |
+
+**Note**: If you want to use a data type that is not part of the table above, make a suggestion to this API Style Guide.
+
+_Spectral rules_:
+
+* [monite-data-incorrect-integer-format](spectral/monite.section4-data-types.yaml)
+* [monite-data-incorrect-number-format](spectral/monite.section4-data-types.yaml)
+* [monite-data-incorrect-string-format](spectral/monite.section4-data-types.yaml)
+
+
+### SHOULD use standard types for Language, Country and Currency values
+
+For some data types (related to localization and regionality), it's common to use enumerations with limited sets of predefined string values, based on corresponding ISO standards.
+
+To easily find all API elements of such data types and treat these elements in the same way, we should use `string` as their type and corresponding format values from the table below.
+
+| **Type**           | **OpenAPI type** | **OpenAPI format** | **Description**                                                                                             | **Example**                            |
+|--------------------|------------------|--------------------|-------------------------------------------------------------------------------------------------------------|----------------------------------------|
+| Language           | `string`         | `lang`             | A two-letter language code following [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).    | "en"                                   |
+| Country            | `string`         | `country`          | A two-letter country code following [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). | "DE"                                   |
+| Currency           | `string`         | `currency`         | A three-letter currency code following [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).                  | "EUR"                                  |
+
+:+1: &nbsp; Recommended
+
+``` yaml
+country:
+  type: string
+  format: country
+  enum:
+  - AF
+  - AX
+  - AL
+  - DZ
+  - AS
+  - ...
+  description: Country of a customer.
+```
+
+### SHOULD specify data formats in schema models
+
+For all data types that support providing their `format`, we should specify this format in schema models. This will allow API consumers to better understand what values can be represented by our API elements and therefore build better validation logic on their side.
+
+Once specified in schema models, this format should be propagated to OpenAPI files, technical documentation, server-side libraries, and other artifacts that improve developer experience of API consumers.
+
+:x: &nbsp; Not recommended
+
+``` yaml
+website:
+  type: string
+  description: Customer website.
+```
+
+:+1: &nbsp; Recommended
+
+``` yaml
+website:
+  type: string
+  description: Customer website.
+  format: uri
+```
+
+_Spectral rules_:
+
+* [monite-data-missing-integer-format](spectral/monite.section4-data-types.yaml)
+* [monite-data-missing-number-format](spectral/monite.section4-data-types.yaml)
+
+
+### SHOULD use the common Address object
+
+For unification purposes, we should use the same schema for all objects representing a postal address. This object should contain the following fields, and their presence should be either required or not depending on the context where this address is used in the API.
+
+| **Field Name** | **OpenAPI type** | **OpenAPI format** | **Description**                                                                                 | 
+|----------------|------------------|--------------------|-------------------------------------------------------------------------------------------------|
+| `postal_code`  | `string`         |                    | Also referred to as a "ZIP code".                                                               | 
+| `country`      | `string`         | `country`          | Specified by a country code.                                                                    |
+| `state`        | `string`         |                    | Also referred to as a "province" or "county".                                                   |
+| `city`         | `string`         |                    |                                                                                                 | 
+| `line1`        | `string`         |                    | Combines a street address, house number, apartment number and any other suffixes of the address | 
+| `line2`        | `string`         |                    | Usually optional and being used only if the address is very long and doesn't fit into `line1`.  | 
+
+
+### SHOULD use the common Money object
+
+For unification purposes, we should use the same schema for all objects representing money values. This object should contain the following fields, both are always required:
+
+| **Field Name** | **OpenAPI type** | **OpenAPI format** | **Description**                             | 
+|----------------|------------------|--------------------|---------------------------------------------|
+| `amount`       | `integer`        | `int64`            | Represented in "minor units"                | 
+| `currency`     | `string`         | `currency`         | "Minor units" depend on the currency value. | 
+
+**Note**: Minor units are specified according to [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217#Minor_units_of_currency) and can be found in [this table](https://en.wikipedia.org/wiki/ISO_4217#Active_codes).
+
+**Note**: We strongly recommend against using string, float or double values for representing amounts, because of arising problems around precision and serialization/deserialization from JSON. Storing amount values as long integers is a common best practice, adopted by API payment providers like [Adyen](https://docs.adyen.com/development-resources/currency-codes) and [Stripe](https://stripe.com/docs/currencies).
+
+<details>
+  <summary>See also</summary>
+  <ul>
+     <li>[JSON can safely represent integers only in the [- 2^53+1, 2^53-1] range](https://datatracker.ietf.org/doc/html/rfc7159#section-6)</li>
+     <li>[OpenAPI incompatible with I-JSON](https://github.com/OAI/OpenAPI-Specification/issues/1517)</li>
+     <li>[Google API: Type and format summary](https://developers.google.com/discovery/v1/type-format)</li>
+  </ul>
+</details>
