@@ -348,3 +348,292 @@ For unification purposes, we should use the same schema for all objects represen
      <li>[Google API: Type and format summary](https://developers.google.com/discovery/v1/type-format)</li>
   </ul>
 </details>
+
+
+## Section 5: URIs
+
+### MUST use the forward slash to indicate hierarchical relationships
+
+The forward-slash (`/`) character is used in the path portion of the URI to indicate a hierarchical relationship between resources, for example:
+
+* `https://api.example.com/v1/invoices`
+* `https://api.example.com/v1/invoices/{id}`
+* `https://api.example.com/v1/invoices/{id}/parts`
+* `https://api.example.com/v1/invoices/{id}/parts/{id}`
+
+_Spectral rule_: [monite-uri-no-backslash](spectral/monite.section5-uri.yaml)
+
+
+### MUST NOT use the trailing forward slash in URIs
+
+As the last character within a URI's path, a forward slash (`/`) adds no extra value and might cause confusion. So, it's better to drop it completely from the URI.
+
+| :x: &nbsp; Not recommended            | :+1: &nbsp; Recommended              |
+|---------------------------------------|--------------------------------------|
+| https://api.example.com/v1/resources/ | https://api.example.com/v1/resources |
+
+_Spectral rule_: [OAS: path-keys-no-trailing-slash](https://meta.stoplight.io/docs/spectral/4dec24461f3af-open-api-rules#path-keys-no-trailing-slash)
+
+
+### MUST NOT have empty segments in a path
+
+Empty path segments could cause a lot of ambiguity, so we must not have them in a path.
+
+| :x: &nbsp; Not recommended                         | :+1: &nbsp; Recommended                                |
+|----------------------------------------------------|--------------------------------------------------------|
+| https://api.example.com/v1/resources//subresources | https://api.example.com/v1/resources/{id}/subresources |
+| https://api.example.com/v1/resources//my_profile   | https://api.example.com/v1/resources/my_profile        |
+
+_Spectral rule_: [monite-uri-no-empty-path-segments](spectral/monite.section5-uri.yaml)
+
+
+### MUST use lowercase letters in URIs
+
+Always prefer lowercase letters in URI paths, for simplicity and consistency.
+
+| :x: &nbsp; Not recommended           | :+1: &nbsp; Recommended              |
+|--------------------------------------|--------------------------------------|
+| HTTPS://API.EXAMPLE.COM/v1/resources | https://api.example.com/v1/resources |
+| https://api.example.com/V1/Resources | https://api.example.com/v1/resources |
+
+_Spectral rule_: [monite-uri-no-uppercase](spectral/monite.section5-uri.yaml)
+
+
+### MUST NOT use "api" in a path
+
+We want the "api" suffix to be part of the host name (e.g. https://api.sandbox.monite.com). This means that using "api" in a base path is redundant, and we MUST NOT do this.
+
+| :x: &nbsp; Not recommended                     | :+1: &nbsp; Recommended                    |
+|------------------------------------------------|--------------------------------------------|
+| https://api.example.com/v1/api/resources       | https://api.example.com/v1/resources       |
+| https://api.example.com/v1/payments-api/orders | https://api.example.com/v1/payments/orders |
+
+_Spectral rule_: [monite-uri-no-api-suffix](spectral/monite.section5-uri.yaml)
+
+
+### MUST NOT add file extensions to URIs
+
+File extensions look bad and do not add any advantage. Removing them decreases the length of URIs as well. No reason to keep them.
+
+Apart from the above reason, if you want to highlight the media type of API using file extension, then you should rely on the media type, as communicated through the `Content-Type` header, to determine how to process the body's content.
+
+| :x: &nbsp; Not recommended                 | :+1: &nbsp; Recommended                |
+|--------------------------------------------|----------------------------------------|
+| https://api.example.com/v1/me/document.xml | https://api.example.com/v1/me/document |
+
+_Spectral rule_: [monite-uri-no-file-extensions](spectral/monite.section5-uri.yaml)
+
+
+### MUST use lower snake_case for path segments and query parameters
+
+We restrict path segments and query parameter names to ASCII snake_case strings matching regex `^[a-z][a-z\_0-9]*$`. The first character must be a lowercase letter and subsequent characters can be letters, underscores (`_`), and numbers.
+
+We prefer snake_case over kebab-case because we use snake_case for resource and field names, and resource names can be exposed in segment paths, query parameters and request/response payloads. If we decide to use kebab-case for resources in a URI and keep snake_case in payloads, this will cause a lot of inconsistencies.
+
+| :x: &nbsp; Not recommended                                 | :+1: &nbsp; Recommended                                    |
+|------------------------------------------------------------|------------------------------------------------------------|
+| https://api.example.com/v1/sales-orders                    | https://api.example.com/v1/sales_orders                    |
+| https://api.example.com/v1/salesOrders                     | https://api.example.com/v1/sales_orders                    |
+| https://api.example.com/v1/transactions?customer-name=Test | https://api.example.com/v1/transactions?customer_name=Test |
+
+Spectral rules:
+
+* [monite-uri-path-snake-case](spectral/monite.section5-uri.yaml)
+* [monite-uri-query-parameters-snake-case](spectral/monite.section5-uri.yaml)
+
+
+## Section 6: REST & Resources
+
+### MUST build APIs around resources
+
+When designing a REST API, always start with identifying resources – the main notions (objects) around which an API client performs various actions. These actions can be either CRUD (typically represented with POST/GET/PATCH/DELETE HTTP methods), or some other (e.g. resulting in changing a resource's state).
+
+>>>
+The key abstraction of information in REST is a resource. Any information that can be named can be a resource: a document or image, a temporal service (e.g. "today's weather in Los Angeles"), a collection of other resources, a non-virtual object (e.g., a person), and so on.
+
+In other words, any concept that might be the target of an author's hypertext reference must fit within the definition of a resource.
+
+A resource is a conceptual mapping to a set of entities, not the entity that corresponds to the mapping at any particular point in time.
+>>>
+([Roy Fielding's dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#sec_5_2_1_1))
+
+#### Collection and singleton resources
+
+A resource can be either a part of a resource collection (with other resources of the same type in the same collection) or a singleton resource (exactly one instance of the resource always exists within any given parent).
+
+For example, `customers` is a collection of resources accessible via the `/customers` URI, where each individual resource can be accessed by its `id` via `/customers/{id}`.
+
+A common example of a singleton resource can be a `config` object that always exists for a given project and is accessible via `/projects/{id}/config`.
+
+**Note**: Singleton resources must not have an ID field, because there is always only one singleton resource for any parent resource.
+
+**Note**: Singleton resources must not define the CREATE or DELETE standard methods. The singleton is implicitly created or deleted when its parent is created or deleted.
+
+**Note**: Singleton resources should define the GET and PATCH methods.
+
+**Note**: Singleton resource names are always singular.
+
+#### Resources and sub-resources
+
+A resource may contain sub-resources (either a collection or singleton).
+
+For example, a `customer` resource can have an `accounts` collection of sub-resources, which is accessible via `/customers/{customer_id}/accounts`.
+
+This way, a single `account` sub-resource can be accessed via `/customers/{customer_id}/accounts/{account_id}`.
+
+
+### MUST provide access to resources via URI path segments
+
+To get access to a collection of resources or a singleton resource, an API client must navigate using path segments of API URIs.
+
+For example, this is how one can retrieve a collection of invoice resources:
+
+* `https://api.example.com/v1/invoices`
+
+This is how one can retrieve a collection of subresources:
+
+* `https://api.example.com/v1/resources/{id}/subresources`
+
+### MUST use nouns to represent resources
+
+REST URIs should refer to a resource that is a thing (noun) instead of referring to an action (verb). Actions are also possible, but only around a specific resource.
+
+| :x: &nbsp; Not recommended          | :+1: &nbsp; Recommended                 |
+|-------------------------------------|-----------------------------------------|
+| https://api.example.com/v1/navigate | https://api.example.com/v1/directions   |
+| https://api.example.com/v1/similar  | https://api.example.com/v1/similarities |
+
+### MAY use verbs for actions on a resource (but avoid when possible)
+
+In some cases, we can use verbs in a URI to represent actions performed on a resource. This is mostly for actions that cannot be represented with standard HTTP methods (POST, GET, PATCH, PUT, DELETE) and, for example, result in an asynchronous change of a resource state.
+
+| :x: &nbsp; Not recommended                  | :+1: &nbsp; Recommended                            |
+|---------------------------------------------|----------------------------------------------------|
+| POST https://api.example.com/v1/archiveUser | POST https://api.example.com/v1/users/{id}/archive |
+
+### SHOULD NOT use CRUD function names in URIs
+
+Do not use URIs to indicate a CRUD (Create, Read, Update, Delete) function. URIs should only be used to uniquely identify the resources and not any action upon them.
+
+Use the corresponding HTTP methods instead.
+
+| :x: &nbsp; Not recommended                  | :+1: &nbsp; Recommended                      |
+|---------------------------------------------|----------------------------------------------|
+| POST https://api.example.com/v1/createUser  | POST https://api.example.com/v1/users        |
+| POST https://api.example.com/v1/getUser     | GET https://api.example.com/v1/users/{id}    |
+| POST https://api.example.com/v1/updateUser  | PATCH https://api.example.com/v1/users/{id}  |
+| POST https://api.example.com/v1/replaceUser | PUT https://api.example.com/v1/users/{id}    |
+| POST https://api.example.com/v1/deleterUser | DELETE https://api.example.com/v1/users/{id} |
+
+_Spectral rule_: [monite-rest-no-crud-in-uri-names](spectral/monite.section6-rest.yaml)
+
+
+### MUST pluralize resource names, unless it's a singleton resource
+
+When naming a collection of resources, use the plural version of a noun. An exception is a singleton resource, which is always unique and only one in the entire API context.
+
+| :+1: &nbsp; Recommended                     | Explanation                                                                                                                                                                                                                           |
+|---------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| https://api.example.com/v1/invoices         | There might be multiple invoices to be processed by this API.                                                                                                                                                                         |
+| https://api.example.com/v1/invoices/{id}    | A single invoice can be retrieved from a collection by its ID.                                                                                                                                                                        |
+| https://api.example.com/v1/users            | There might be multiple users to be processed by this API.                                                                                                                                                                            |
+| https://api.example.com/v1/me               | Here, `me` is a singleton resource pointing to the API user.                                                                                                                                                                          |
+| https://api.example.com/v1/company          | If there is only one company that can be accessed by an API user, it is also a singleton resource, because an API user cannot access any other company.                                                                               |
+| https://api.example.com/v1/company/settings | Although `settings` is plural, it's a singleton resource because there can be only one set of settings for a company (unless there is an API design that allows for multiple sets of different settings to be provided for a company. |
+
+### SHOULD limit the number of subresource levels
+
+We don't want to have too many nested levels for API URLs, because it leads to unnecessary complexity in understanding the API, as well as might result it too long URLs not fitting the browser limitations.
+
+_Spectral rule_: [monite-rest-limited-resource-levels](spectral/monite.section6-rest.yaml)
+
+
+### MUST expose id, created_at and updated_at fields in collection resources
+
+For unification and consistency, every collection resource should have these fields:
+
+* `id`: a unique ID that allows API consumers to refer to this resource instance.
+* `created_at`: a date-time value indicating when this resource instance was created.
+* `updated_at`: a date-time value indicating when this resource instance was modified last time.
+
+**Note**: These fields MUST NOT be exposed in singleton resources. The `id` field is not necessary because there is always only one instance for a singleton resource per its parent resource; while `created_at` and `updated_at` are always the same as its parent resource.
+
+### MUST follow these rules for resource identifies (resource IDs)
+
+#### Resource IDs MUST be URL-friendly
+
+Since IDs should be used in API URIs (to refer to a specific resource instance), they must be URL-friendly.
+
+#### Resource IDs MUST be globally unique
+
+A resource ID value should uniquely identify a specific resource instance within the scope of the entire API platform. No resources should have the same value as their ID, as it can cause a lot of confusion.
+
+#### Resource IDs MUST be generated by an API provider
+
+To make sure all resource IDs meet our requirements, we must always generate them ourselves and assign them to each specific resource instance upon resource creation.
+
+#### Resource IDs MUST NOT be submitted by an API consumer
+
+Because all resource IDs must be generated by us, we don't allow API consumers to generate such IDs (even if they use exactly the same ID format as we do).
+
+However, we understand that our API consumers might also need to store some IDs assigned to resource instances by their platform. In this case, we allow API consumers to store their own IDs in a `partner_internal_id` field.
+
+#### Resource IDs MUST be opaque strings
+
+API consumers must never build any business logic based on the ID format and must always treat resource IDs as random strings. To fulfill this requirement, resource IDs should look like opaque strings, even if there is some logic and format behind the ID generation algorithm.
+
+#### Resource IDs SHOULD NOT have variable length
+
+Once we settle on the format of resource IDs, we should try to do our best to make sure these IDs always have the same length. The reason is that API consumers set a fixed column length in their code and databases to process and store such IDs, and changing the length (especially increasing the length) can have a drastic impact on their integration with our API platform.
+
+If changing the length of resource IDs is inevitable, treat it as a breaking change and prepare your API consumers in advance, with additional communication and fuzzy testing.
+
+#### Resource IDs MUST NOT be sequential numbers
+
+Using sequential numbers for resource IDs is considered an awful development practice. The main reasons are:
+
+* In this case, resource IDs are easily guessable. This makes it much easier for a malicious user to attempt to access resources that they shouldn't have to.
+* The last generated resource ID gives any API client information of how many resources of a certain type exist on an API platform. This might expose some critical business information (like the total number of API clients, the total number of payment transactions, etc.), which in a normal situation should never be available for people outside an organization owning this API platform.
+* Quite often these IDs directly correspond to the auto-incremented database indexes from a data table storing information about these resources. This gives even more information to a potential attacker in case they can get access to the internal systems.
+
+#### Resource IDs MAY use either UUID or Snowflake formats
+
+One of the easiest ways to get an opaque string that is guaranteed to be unique and hence can be used as resource IDs is to generate UUID values.
+
+An alternative (and more powerful) option is to generate so-called [Snowflake IDs](https://en.wikipedia.org/wiki/Snowflake_ID) that follow some generation format, which is unknown to API consumers. Since API consumers don't know the exact format of such IDs, they still treat them as opaque and unique. However, this makes it possible for API producers to de-construct such IDs and decode some values from it. For example, in the case of distributed systems, such IDs can be used for smart routing and data storage decisions.
+
+#### Resource IDs MAY use prefixes indicating resource types
+
+To make it faster to determine which resource type a specific resource ID is referring to, some API producers add predefined prefixes to each resource ID value. These prefixes can be 2, 3, or 4 characters long and uniquely correspond to a specific resource type on an API platform.
+
+For example, all resource IDs for a `payment` resource can follow either the `PA_*` or `PAY_*` or `PYMT_*` format.
+
+Using such IDs makes it much quicker to troubleshoot different cases and identify a situation when some IDs are being used in the wrong context.
+
+#### Resource IDs MUST be stable and never change their value for a given resource instance
+
+Each resource ID uniquely identifies a specific resource instance. This means that once a resource ID has been generated and assigned to a specific resource instance, it becomes an inherent part of that resource.
+
+#### Resource IDs MUST follow the "resource_id" format when being referred in payloads of other resources
+
+For example, if an API has the following `product` resource:
+
+```json
+{
+  "id" : "e675f59e-ddd1-4835-8bc2-edd76c54fad4",
+  "name" : "Tomato"
+}
+```
+
+The invoice resource should link to it by the `product_id` field:
+
+```json
+{
+  "line_items" : [
+    {
+      "product_id" : "e675f59e-ddd1-4835-8bc2-edd76c54fad4",
+      "number" : 1200
+    }
+  ]
+}
+```
