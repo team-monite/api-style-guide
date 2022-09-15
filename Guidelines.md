@@ -47,7 +47,7 @@ When working on a new product on our platform, or expanding an existing product,
 <details>
   <summary>See also</summary>
   <ul>
-     <li>[Understanding the API-First Approach to Building Products](https://swagger.io/resources/articles/adopting-an-api-first-approach/)</li>
+     <li><a href="https://swagger.io/resources/articles/adopting-an-api-first-approach/">Understanding the API-First Approach to Building Products</a></li>
      <li>[The Business Value of API-First Design](https://auth0.com/blog/the-business-value-of-api-first-design/)</li>
      <li>[API-First vs. API Design-First: A Comprehensive Guide](https://blog.stoplight.io/api-first-vs.-api-design-first-a-comprehensive-guide)</li>
      <li>[2021 State of the API Report from Postman](https://www.postman.com/state-of-api/api-first-strategies/#api-first-strategies)</li>
