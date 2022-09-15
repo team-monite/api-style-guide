@@ -173,3 +173,47 @@ When naming fields or other elements of an API, avoid using unnecessary filler w
 | `country_code`             | `country`               |
 
 _Spectral rule_: [monite-language-filler-words](spectral/monite.section2-language.yaml)
+
+
+## Section 3: Security
+
+Read first:
+
+* [OWASP API Security Project](https://owasp.org/www-project-api-security/)
+* [API Security Checklist](https://github.com/shieldfy/API-Security-Checklist)
+
+### MUST use HTTPs with TLS 1.2+ on all endpoints
+
+HTTP is not secure and its scope must be very limited. For our APIs we must always use encrypted connections, and unencrypted API calls must be rejected.
+
+_Spectral rule_: [monite-security-https-only](spectral/monite.section3-security.yaml)
+
+
+### MUST require authentication for all endpoints (except for the Auth service)
+
+All API endpoints must be protected behind authentication to avoid [broken authentication](https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication) issues.
+
+The only exception to this requirement is the OAuth 2.0 service, which exposes endpoints like `/auth/token` and `/auth/revoke` that by design might be accessible without any authentication.
+
+
+### SHOULD NOT use Basic Authentication
+
+Use standard authentication instead (e.g., JWT, OAuth).
+
+_Spectral rule_: [monite-security-no-http-basic](spectral/monite.section3-security.yaml)
+
+
+### MUST NOT expose any sensitive data in the URL
+
+If you have any sensitive data in a URL, there is a high chance that this data might be intercepted/recorded/modified by a malicious actor. URLs can be exposed in many ways, like browsers, emails, UI and so on. Even if they are not displayed in a web browser and used only for backend-to-backend interaction in an encrypted HTTPs connection, such URLs can still appear in server logs and other places.
+
+For sensitive data like credentials, passwords, security tokens, API keys and similar:
+
+* use the standard Authorization header.
+
+For sensitive data like [PCI](https://www.pcisecuritystandards.org/) or [PII](https://en.wikipedia.org/wiki/Personal_data):
+
+* use request/response body.
+
+_Spectral rule_: [monite-security-no-secrets-in-path-or-query-parameters](spectral/monite.section3-security.yaml)
+
