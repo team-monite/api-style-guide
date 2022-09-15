@@ -50,7 +50,7 @@ When working on a new product on our platform, or expanding an existing product,
      <li><a href="https://swagger.io/resources/articles/adopting-an-api-first-approach/">Understanding the API-First Approach to Building Products</a></li>
      <li><a href="https://auth0.com/blog/the-business-value-of-api-first-design/">The Business Value of API-First Design</a></li>
      <li><a href="https://blog.stoplight.io/api-first-vs.-api-design-first-a-comprehensive-guide">API-First vs. API Design-First: A Comprehensive Guide</a></li>
-     <li><a href="https://www.postman.com/state-of-api/api-first-strategies/#api-first-strategies">2021 State of the API Report from Postman</a></li>
+     <li><a href="https://www.postman.com/state-of-api/api-first-strategies/#api-first-strategies">2022 State of the API Report from Postman</a></li>
   </ul>
 </details>
 
@@ -62,7 +62,7 @@ Our public APIs must follow the [REST architectural style](https://en.wikipedia.
 
 <details>
   <summary>Why</summary>
-  <p>REST is the most popular architectural style at the moment ([2021 State of the API | Postman](https://www.postman.com/state-of-api/api-technologies/#api-technologies)). This means that this architectural style is very well-known by the majority of developers in the world; there are already a lot of tools, frameworks, libraries and best practices around REST – and therefore it provides the flattest learning curve and best developer experience for most of the developers who will be integrating with Monite.</p>
+  <p>REST is the most popular architectural style at the moment (<a href="https://www.postman.com/state-of-api/api-technologies/#api-technologies">2022 State of the API | Postman</a>). This means that this architectural style is very well-known by the majority of developers in the world; there are already a lot of tools, frameworks, libraries and best practices around REST – and therefore it provides the flattest learning curve and best developer experience for most of the developers who will be integrating with Monite.</p>
 </details>
 
 <details>
@@ -90,7 +90,9 @@ This practice is usually referred to as the [YAGNI principle](https://martinfowl
 
 > Be conservative in what you send, be liberal in what you accept.
 
-In practice, this means that our APIs should not expose resources, parameters, actions, headers, data unless it's really clear why and how they will be used. But we cannot expect the same from our API clients and should not break with an internal server error if we receive something that was not expected.
+In practice, this means that our APIs should not expose resources, parameters, actions, headers, data unless it's really clear why and how they will be used. 
+
+Note: However, we cannot expect that our API clients will follow the same principle. So, me must build our API in a way that is tolerant to accepting something that is not part of the API contract.
 
 <details>
   <summary>See also</summary>
