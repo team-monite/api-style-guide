@@ -23,11 +23,6 @@ The requirement level keywords "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", "MAY"
 * **SHOULD** and **SHOULD NOT** mean that there are exceptions to the rule, but we should be very careful when applying those exceptions. Sometimes we start with these keywords and eventually change them to **MUST** and **MUST NOT**.
 
 
-## Table of contents
-
-[[_TOC_]]
-
-
 ## Section 1: General
 
 ### MUST follow the API-First principle
