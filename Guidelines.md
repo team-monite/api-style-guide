@@ -1192,3 +1192,43 @@ Mass deletion of resources can have a drastic impact on the data safety of API i
 ```shell
 curl -X DELETE https://api.example.com/v1/resources
 ```
+
+
+## Section 9: HTTP status codes and responses
+
+Work in progress...
+
+
+## Section 10: HTTP headers
+
+Work in progress...
+
+
+## Section 11: Webhooks
+
+Work in progress...
+
+
+## Section 12: Hypermedia
+
+Work in progress...
+
+
+## Section 13: Performance
+
+Work in progress...
+
+
+## Section 14: Pagination
+
+Work in progress...
+
+
+## Section 15: Compatibility & Versioning
+
+Work in progress...
+
+
+## Section 16: Deprecation
+
+Work in progress...
