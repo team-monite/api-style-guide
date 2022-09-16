@@ -92,7 +92,7 @@ This practice is usually referred to as the [YAGNI principle](https://martinfowl
 
 In practice, this means that our APIs should not expose resources, parameters, actions, headers, data unless it's really clear why and how they will be used. 
 
-Note: However, we cannot expect that our API clients will follow the same principle. So, me must build our API in a way that is tolerant to accepting something that is not part of the API contract.
+Note: However, we cannot expect that our API clients will follow the same principle. So, we must build our API in a way that is tolerant to accepting something that is not part of the API contract.
 
 <details>
   <summary>See also</summary>
@@ -543,7 +543,7 @@ When naming a collection of resources, use the plural version of a noun. An exce
 
 ### SHOULD limit the number of subresource levels
 
-We don't want to have too many nested levels for API URLs, because it leads to unnecessary complexity in understanding the API, as well as might result it too long URLs not fitting the browser limitations.
+We don't want to have too many nested levels for API URLs, because it leads to unnecessary complexity in understanding the API, as well as might result in too long URLs not fitting the browser limitations.
 
 _Spectral rule_: [monite-rest-limited-resource-levels](spectral/monite.section6-rest.yaml)
 
