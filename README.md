@@ -29,7 +29,7 @@ However, there are certain aspects of these guidelines that are addressing more 
 
 ## Spectral
 
-We believe that nobody can remember all the rules in the API style, so it's key to be able to validate automatically as many rules as possible.
+We believe that nobody can remember all the rules in the API style, so it's key to be able to automatically validate as many rules as possible.
 
 For that purpose we are using [Spectral](https://stoplight.io/open-source/spectral/) that can lint API contracts in the [OpenAPI](https://www.openapis.org/) format.
 
