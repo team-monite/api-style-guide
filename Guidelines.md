@@ -637,3 +637,153 @@ The invoice resource should link to it by the `product_id` field:
   ]
 }
 ```
+
+## Section 7: JSON payload
+
+### MUST use the JSON format for request and response payloads
+
+Every request and response payload must be a valid JSON object, representing structured resource data. This allows API consumers to easily parse, construct, and validate such payloads; and this allows us to safely expand such payloads with new keys in the future, if needed.
+
+The JSON format is a well-known and established industry standard, defined in [RFC 7159](https://tools.ietf.org/html/rfc7159). We prefer to additionally apply restrictions of the [RFC 7493 "Internet JSON"](https://tools.ietf.org/html/rfc7493) standard, which means in particular:
+
+* a JSON payload cannot contain duplicate keys on the same level, each key must be unique.
+* a JSON payload must use UTF-8 encoding and consist of valid Unicode strings.
+
+:x: &nbsp; Not recommended
+
+``` json
+[
+  100,
+  120,
+  176
+]
+```
+
+:x: &nbsp; Not recommended
+
+``` xml
+<prices>
+   <price>100</price>
+   <price>120</price>
+   <price>176</price>
+</prices>
+```
+
+:+1: &nbsp; Recommended
+
+``` json
+{ 
+  "prices" : [
+     100,
+     120,
+     176
+   ]
+}
+```
+_Spectral rule_: [monite-json-root-json-objects](spectral/monite.section7-json.yaml)
+
+
+### SHOULD prefer nested structures instead of flattened ones
+
+This enables better grouping and easier extensibility in the future.
+
+:x: &nbsp; Not recommended
+
+``` xml
+{ 
+  "account_payout_delay_days" 2,
+  "account_payout_interval" = "daily"
+}
+```
+
+:+1: &nbsp; Recommended
+
+``` json
+{ 
+  "account" : {
+     ...
+     "payout_schedule" : {
+        "delay_days" : 2,
+        "interval" : "daily"
+     }
+  }
+}
+```
+
+
+### MUST use lower snake_case for field names
+
+We restrict field names to ASCII snake_case strings matching regex `^[a-z][a-z\_0-9]*$`. The first character must be a lowercase letter, and subsequent characters can be letters, underscores (`_`), and numbers.
+
+| :x: &nbsp; Not recommended | :+1: &nbsp; Recommended                                    |
+|----------------------------|------------------------------------------------------------|
+| sales-order-id             | sales_order_id                                             |
+| salesOrderId               | sales_order_id                                             |
+| sales-order-ID             | sales_order_id                                             |
+
+_Spectral rule_: [monite-json-field-names-snake-case](spectral/monite.section7-json.yaml)
+
+
+### MUST pluralize array names
+
+The names of arrays must be pluralized to indicate that they contain multiple values.
+
+:x: &nbsp; Not recommended
+
+``` json
+{ 
+  "price" : [
+     100,
+     120,
+     176
+   ]
+}
+```
+
+:+1: &nbsp; Recommended
+
+``` json
+{ 
+  "prices" : [
+     100,
+     120,
+     176
+   ]
+}
+```
+
+### MUST NOT use null for empty arrays
+
+To avoid confusion, empty arrays must be still represented as arrays, not as nulls.
+
+:x: &nbsp; Not recommended
+
+``` json
+{ 
+  "prices" : null
+}
+```
+
+:+1: &nbsp; Recommended
+
+``` json
+{ 
+  "prices" : []
+}
+```
+
+### SHOULD follow the "verb_at" format for date-time properties
+
+Using certain name conventions for most popular data types makes it easier for API consumers to understand what to expect from a field just by looking at its name.
+
+For date-time properties we want to use the "_at" suffix, preceded by a verb in a present or past tense, which is quite common for many modern APIs.
+
+| :x: &nbsp; Not recommended | :+1: &nbsp; Recommended  |
+|----------------------------|--------------------------|
+| created                    | created_at               |
+| modification_date          | updated_at               |
+| start_date                 | starts_at                |
+| expire_at                  | expires_at or expired_at |
+| will_expire_at             | expires_at               |
+
+
