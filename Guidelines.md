@@ -787,3 +787,408 @@ For date-time properties we want to use the "_at" suffix, preceded by a verb in 
 | will_expire_at             | expires_at               |
 
 
+## Section 8: HTTP requests
+
+### SHOULD support the following HTTP methods
+
+We allow one or several HTTP methods to be used with different parts of our REST APIs.
+
+* `POST` – to create new resources or perform an action on a resource.
+* `GET` – to return a resource or collection of resources.
+* `PATCH` – to (partially) update a resource.
+* `PUT` – to replace a resource.
+* `DELETE` – to delete a resource. **Note**: always evaluate if this method is needed for real use cases or not; and when it's really needed, consider using the "soft delete" technique.
+
+For more specific guidance on how to use these HTTP methods, refer to the corresponding rule in this section.
+
+### MUST create resources via POST to a collection
+
+**Note**: A successful `POST` request must always return the created resource in a response with HTTP status code **201 Created**.
+
+Example of a `POST` request:
+
+```shell
+curl -X POST https://api.example.com/v1/products \
+-H 'Content-Type: application/json' \
+-d '{
+  "name": "Potato",
+  "price": {
+    "currency": "EUR",
+    "value": 1000
+  }
+}'
+```
+
+Successful response (**201 Created**):
+
+```json
+{
+    "name": "Potato",
+    "price": {
+        "currency": "EUR",
+        "value": 1000
+    },
+    "id": "e675f59e-ddd1-4835-8bc2-edd76c54fad4",
+    "created_at": "2022-05-02T15:13:29.901787+00:00",
+    "updated_at": "2022-05-02T15:13:29.901787+00:00"
+}
+```
+
+### MUST create only one resource at a time
+
+When using the `POST` call to create a resource, we should create only one resource at a time. To create subresources, a separate `POST` call should be made.
+
+This is done so to avoid a situation when one of the resources is created successfully, while another is not. In this case, it's not clear if the response should be `Success` or `Error`. Most likely, the whole request should be treated as an atomic operation and hence should return the error code.
+
+To avoid this ambiguity, we expect separate API calls for creating a resource and its subresources.
+
+For example:
+
+```shell
+curl -X POST https://api.example.com/v1/resources \
+-H 'Content-Type: application/json' \
+-d '{
+  "name": "My resource"
+}'
+```
+
+**201 Created** response:
+
+```json
+{
+   "id" : "e675f59e-ddd1-4835-8bc2-edd76c54fad4",
+   "name" : "My resource"
+}
+```
+
+Another request:
+
+```shell
+curl -X POST https://api.example.com/v1/resources/e675f59e-ddd1-4835-8bc2-edd76c54fad4/subresources \
+-H 'Content-Type: application/json' \
+-d '{
+  "name": "My sub-resource"
+}'
+```
+
+Another **201 Created** response:
+
+```json
+{
+   "id" : "d654f59e-dad1-4835-8bc2-edd76c54faf2",
+   "name" : "My sub-resource",
+   "parent_id" : "e675f59e-ddd1-4835-8bc2-edd76c54fad4"
+}
+```
+
+
+### MAY perform an action via POST to an action URI for a resource
+
+When an action to be performed with a resource doesn't belong to the variety of CRUD operations (and hence cannot be represented with standard HTTP methods), it is allowed to use a `POST` call to initiate this action. In such cases, an action is represented with a verb appended to a resource URI.
+
+Example of a `POST` request performing resource verification with a `/verify` action:
+
+```shell
+curl -X POST https://api.example.com/v1/resources/e675f59e-ddd1-4835-8bc2-edd76c54fad4/verify \
+-H 'Content-Type: application/json' \
+-d '{
+  "verification_tier": "medium"
+}'
+```
+
+Successful **202 Accepted** response:
+
+```json
+{
+   "verification_status" : "scheduled"
+}
+```
+
+### MUST retrieve a collection of resources via GET to the resources URI
+
+**Note**: A request body is not allowed for `GET` calls.
+
+**Note**: All resources must be wrapped into a `data` array, for better extensibility of a response body (for example, to add pagination-related properties).
+
+**Note**: When there might be a lot of resources returned by a `GET` call (more than 20), always consider adding pagination to return only chunks of the resource collection.
+
+Example of a `GET` request:
+
+```shell
+curl https://api.example.com/v1/products
+```
+
+Successful **200 OK** response:
+
+```json
+{
+    "data": [
+        {
+            "name": "Potato",
+            "price": {
+                "currency": "EUR",
+                "value": 1000
+            },
+            "id": "3278430a-512e-4eca-967b-3dc59743d0bc",
+            "created_at": "2022-05-02T15:13:26.517562+00:00",
+            "updated_at": "2022-05-02T15:13:26.517572+00:00"
+        },
+        {
+            "name": "Tomato",
+            "price": {
+                "currency": "USD",
+                "value": 2000
+            },
+            "id": "e675f59e-ddd1-4835-8bc2-edd76c54fad4",
+            "created_at": "2022-05-02T15:13:29.901787+00:00",
+            "updated_at": "2022-05-02T15:13:29.901796+00:00"
+        }
+    ]
+}
+```
+
+When the `GET` call should return no resources, a successful **200 OK** response must still have a `data` array, empty in this case:
+
+```json
+{
+    "data": []
+}
+```
+
+_Spectral rules_:
+
+* [monite-requests-get-no-request-body](spectral/monite.section8-requests.yaml)
+
+
+### MUST retrieve a single resource via GET to the resources URI with an ID as a path parameter
+
+**Note**: A request body is not allowed for `GET` calls.
+
+**Note**: A resource must be returned on the root level of a response and not be wrapped into any other objects.
+
+Example of a `GET` request:
+
+```shell
+curl https://api.example.com/v1/products/3278430a-512e-4eca-967b-3dc59743d0bc
+```
+
+Successful **200 OK** response:
+
+```json
+{
+    "name":"Potato",
+    "price":{
+        "currency":"EUR",
+        "value":1000
+    },
+    "id":"3278430a-512e-4eca-967b-3dc59743d0bc",
+    "created_at":"2022-05-02T15:13:26.517562+00:00",
+    "updated_at":"2022-05-02T15:13:26.517572+00:00"
+}
+```
+
+_Spectral rules_:
+
+* [monite-requests-get-no-request-body](spectral/monite.section8-requests.yaml)
+
+
+### MUST filter a resource collection with query parameters
+
+To filter a collection of returned resources against one or several criteria, use query parameters.
+
+Example of a `GET` request:
+
+```shell
+curl https://api.example.com/v1/products?name=Tomato
+```
+
+Successful **200 OK** response:
+
+```json
+{
+    "data": [
+        {
+            "name": "Tomato",
+            "price": {
+                "currency": "USD",
+                "value": 2000
+            },
+            "id": "e675f59e-ddd1-4835-8bc2-edd76c54fad4",
+            "created_at": "2022-05-02T15:13:29.901787+00:00",
+            "updated_at": "2022-05-02T15:13:29.901796+00:00"
+        }
+    ]
+}
+```
+
+When it's necessary to filter by nested fields, use the dot notation for query parameter names:
+
+```shell
+curl https://api.example.com/v1/products?price.currency=EUR
+```
+
+Successful **200 OK** response:
+
+```json
+{
+  "data": [
+    {
+      "name": "Potato",
+      "price": {
+        "currency": "EUR",
+        "value": 1000
+      },
+      "id": "3278430a-512e-4eca-967b-3dc59743d0bc",
+      "created_at": "2022-05-02T15:13:26.517562+00:00",
+      "updated_at": "2022-05-02T15:13:26.517572+00:00"
+    }
+  ]
+}
+```
+
+### MUST use POST instead of GET to pass sensitive data
+
+In some cases you might need to pass sensitive data along with your `GET` request. Since `GET` calls don't have a request body, make sure you never pass this data in a request URI.
+
+Instead, consider passing this data in HTTP headers, which would be much more secure. When it's not possible for some reason, then you can change your `GET` call to `POST` and pass sensitive data in a request body.
+
+:x: &nbsp; Not recommended
+
+```shell
+curl https://api.example.com/v1/resources?sensitive_data=sensitive_value
+```
+
+:+1: &nbsp; Recommended
+
+```shell
+curl -X POST https://api.example.com/v1/resources \
+-H 'Content-Type: application/json' \
+-d '{
+  "sensitive_data": "sensitive_value"
+}'
+```
+
+
+### MUST update parts of a resource via PATCH to a resource URI
+
+To update a resource, an API client should send only the fields that need to be changed. All the other fields should stay intact.
+
+**Note**: A successful `PATCH` request must always return the updated resource in a response.
+
+**Note**: The entire `PATCH` operation is atomic. This means that if some fields cannot be set to the specified values, the entire `PATCH` request should be rejected with a validation error.
+
+Example of a `PATCH` request:
+
+```shell
+curl -X PATCH https://api.example.com/v1/products/e675f59e-ddd1-4835-8bc2-edd76c54fad4 \
+-H 'Content-Type: application/json' \
+-d '{
+  "name": "New potato"
+}'
+```
+
+Successful response (**200 OK**) with changed `name` and `updated_at` fields:
+
+```json
+{
+    "name": "New potato",
+    "description": "This is a potato",
+    "price": {
+        "currency": "EUR",
+        "value": 1000
+    },
+    "id": "e675f59e-ddd1-4835-8bc2-edd76c54fad4",
+    "created_at": "2022-05-02T15:13:29.901787+00:00",
+    "updated_at": "2022-07-02T15:13:29.901787+00:00"
+}
+```
+
+Also, for nullable fields it should be possible to set them back to `null`. For example:
+
+```shell
+curl -X PATCH https://api.example.com/v1/products/e675f59e-ddd1-4835-8bc2-edd76c54fad4 \
+-H 'Content-Type: application/json' \
+-d '{
+  "description": null
+}'
+```
+
+Successful response (**200 OK**) with changed `description` and `updated_at` fields:
+
+```json
+{
+    "name": "New potato",
+    "description": null,
+    "price": {
+        "currency": "EUR",
+        "value": 1000
+    },
+    "id": "e675f59e-ddd1-4835-8bc2-edd76c54fad4",
+    "created_at": "2022-05-02T15:13:29.901787+00:00",
+    "updated_at": "2022-07-02T15:13:29.901787+00:00"
+}
+```
+
+
+### MUST replace the entire resource via PUT to a resource URI
+
+In general, we should prefer using `PATCH` for changing a resource. However, in some cases it might be more convenient to use `PUT` to update the entire resource in one API call (for example, when uploading a `config` file from a file storage).
+
+**Note**: A successful `PUT` request must always return the updated resource in a response.
+
+Example of a `PUT` request:
+
+```shell
+curl -X PUT https://api.example.com/v1/company/config \
+-H 'Content-Type: application/json' \
+-d '{
+  "option1": "value1",
+  "option2": "value2",
+  "option3": "value3",
+  "option4": "value4"
+}'
+```
+
+Successful **200 OK** response:
+
+```json
+{
+  "option1": "value1",
+  "option2": "value2",
+  "option3": "value3",
+  "option4": "value4"
+}
+```
+
+### MUST delete a resource via DELETE to a resource URI
+
+When deleting a resource, always consider using "soft delete" to mark a resource as deleted in our database but not actually deleting it. However, even in the case of soft delete, an API client should never see the difference with a regular delete operation and should treat a deleted resource as gone.
+
+**Note**: A request body is not allowed for `DELETE` calls.
+
+Example of a `DELETE` request:
+
+```shell
+curl -X DELETE https://api.example.com/v1/products/3278430a-512e-4eca-967b-3dc59743d0bc
+```
+
+A successful `DELETE` response must return a **204 No Content** HTTP status code and provide no response body.
+
+A failed `DELETE` response must return a **404 Not Found** HTTP status code, no matter if the specified resource ID is actually not found or if it is found but marked as deleted.
+
+**Note**: After deleting a resource (even in case of a "soft delete"), this resource instance must never be accessible again. This means, for example, that the `GET /v1/resources/{id}` call to this resource must always return **404 Not Found** after resource deletion.
+
+_Spectral rules_:
+
+* [monite-requests-delete-no-request-body](spectral/monite.section8-requests.yaml)
+
+
+### SHOULD NOT allow a DELETE operation for resource collections
+
+Mass deletion of resources can have a drastic impact on the data safety of API integrations, intentionally or unintentionally. We find these risks to be too high and decided to avoid introducing a `DELETE` operation for resource collections.
+
+:x: &nbsp; Not recommended
+
+```shell
+curl -X DELETE https://api.example.com/v1/resources
+```
