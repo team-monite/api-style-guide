@@ -9,7 +9,7 @@ As an API-First company, we put extremely high expectations on the quality of ou
 
 Although there are already a lot of good APIs and knowledge around building APIs in the industry, there is no single standard way of building Web APIs. This means that every company needs to make their own choices on what makes their API good, and we are not an exception to that.
 
-Our API Style Guide is a representation of our choices, and we want to keep it public to share our knowledge with our customers and anyone else who is interested in build modern Web APIs.
+Our API Style Guide is a representation of our choices, and we want to keep it public to share our knowledge with our customers and anyone else who is interested in building modern Web APIs.
 
 
 ## Scope
