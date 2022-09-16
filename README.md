@@ -27,6 +27,31 @@ Most of these guidelines are focused on technical aspects of API design and impl
 However, there are certain aspects of these guidelines that are addressing more common issues and should be valuable for a broader group, including product managers, technical writers, technical support, developer experience engineers, and people in many other roles.
 
 
+## Spectral
+
+We believe that nobody can remember all the rules in the API style, so it's key to be able to validate automatically as many rules as possible.
+
+For that purpose we are using [Spectral](https://stoplight.io/open-source/spectral/) that can lint API contracts in the [OpenAPI](https://www.openapis.org/) format.
+
+To start with Spectral, you can install it as an npm package or use other installation methods:
+
+```bash
+npm install -g @stoplight/spectral-cli
+```
+
+Additionally, you might want to install a [spellchecker](https://www.npmjs.com/package/spellchecker) package to check spelling of API names and descriptions:
+
+```bash
+npm install spellchecker
+```
+
+After that, you are ready to validate your OpenAPI file with the rulesets in this repository:
+
+``` bash
+spectral lint spectral/test-openapi.yaml -r spectral/monite.all.yaml
+```
+
+
 ## Contributing
 
 We encourage everybody to contribute to this API Style Guide. Only together we can achieve high quality and clarity of all the guidelines, as well as keep them up-to-date and useful for the API community.
