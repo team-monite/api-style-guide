@@ -1,9 +1,11 @@
 const spellChecker = require('spellchecker');
 const exceptions = ["iban", "bic"];
 
+const separatorsRegex = /\s/     // any whitespace
+
 export default (input) => {
 
-  const words = input.split('(\w+)');
+  const words = input.split(separatorsRegex);
   const mistakes = words
     .filter((word) => !exceptions.includes(word))
     .filter((word) => spellChecker.isMisspelled(word));
