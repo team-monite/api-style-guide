@@ -1,7 +1,7 @@
 # #############################################################################################################
 # Section 4: Data types and formats                                                                           #
 # This ruleset covers the Data Types rules from the Monite API Style guide                                    #
-# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-4-data-types-and-formats #
+# https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-4-data-types-and-formats #
 # #############################################################################################################
 
 rules:
@@ -47,7 +47,7 @@ rules:
           - double
 
   monite-data-incorrect-string-format:
-    message: "Incorrect integer format: {{value}}. See https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#must-use-only-allowed-data-types"
+    message: "Incorrect integer format: {{value}}. See https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#must-use-only-allowed-data-types"
     severity: error
     given: '$..[?(@.type=="string")]'
     then:

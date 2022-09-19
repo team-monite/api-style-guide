@@ -1,7 +1,7 @@
 # ##################################################################################################
 # Section 14: Pagination                                                                           #
 # This ruleset covers the Pagination rules from the Monite API Style guide                         #
-# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-14-pagination #
+# https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-14-pagination #
 # ##################################################################################################
 
 rules:

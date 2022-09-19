@@ -1,7 +1,7 @@
 # ###############################################################################################
 # Section 3: Security                                                                           #
 # This ruleset covers the Security rules from the Monite API Style guide                        #
-# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-3-security #
+# https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-3-security #
 # ###############################################################################################
 
 rules:

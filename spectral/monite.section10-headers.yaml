@@ -1,7 +1,7 @@
 # ####################################################################################################
 # Section 10: HTTP headers                                                                           #
 # This ruleset covers the HTTP headers rules from the Monite API Style guide                         #
-# https://github.com/team-monite/api-style-guide/-/blob/master/Guidelines.md#section-10-http-headers #
+# https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-10-http-headers #
 # ####################################################################################################
 
 rules:
