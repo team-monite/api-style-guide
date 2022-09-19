@@ -3,7 +3,7 @@ const exceptions = ["iban", "bic"];
 
 export default (input) => {
 
-  const words = input.split('/(\w+)/g');
+  const words = input.split('(\w+)');
   const mistakes = words
     .filter((word) => !exceptions.includes(word))
     .filter((word) => spellChecker.isMisspelled(word));
