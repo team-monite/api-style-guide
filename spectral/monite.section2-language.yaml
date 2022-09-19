@@ -28,8 +28,15 @@ rules:
       - "$.info.summary"
       - "$.info.description"
       - "$.paths.*.*.parameters[?(@.in==='query' || @.in==='path' || @.in==='cookie')].description"
-      - "$.components.schemas.*~"
       - "$..properties.*.description"
+    then:
+      function: check-spelling
+
+  monite-language-spelling-schema-names:
+    message: "{{error}}"
+    severity: warn
+    given:
+      - "$.components.schemas.*~"
     then:
       function: check-spelling
 

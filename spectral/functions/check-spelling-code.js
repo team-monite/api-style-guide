@@ -1,5 +1,5 @@
 const spellChecker = require('spellchecker');
-const exceptions = ["bic","datetime","gt","gte","icontains","iban","isnull","lt","lte","md5","mimetype","oid","userpic"];
+const exceptions = ["bic","datetime","gt","gte","icontains","iban","idempotency","isnull","lt","lte","md5","mimetype","oid","userpic"];
 
 const codeStyleRegex = /[_]/        // snake_case
 
