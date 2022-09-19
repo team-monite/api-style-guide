@@ -11,7 +11,7 @@ rules:
 
   monite-json-root-json-objects:
     message: Requests and responses must be JSON objects
-    severity: warn
+    severity: error
     given: "$.paths.*.*[responses,requestBody]..content..schema"
     then:
       function: is-object-schema

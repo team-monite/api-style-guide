@@ -48,7 +48,7 @@ rules:
 
   monite-data-incorrect-string-format:
     message: "Incorrect integer format: {{value}}. See https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#must-use-only-allowed-data-types"
-    severity: error
+    severity: warn
     given: '$..[?(@.type=="string")]'
     then:
       field: format
