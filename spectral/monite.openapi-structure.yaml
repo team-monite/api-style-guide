@@ -6,15 +6,15 @@
 
 rules:
 
-  monite-openapi-version-303:
-    message: The OpenAPI format must be 3.0.3
+  monite-openapi-version-302:
+    message: The OpenAPI format must be 3.0.2
     severity: error
     given: "$"
     then:
       field: openapi
       function: pattern
       functionOptions:
-        match: 3.0.3
+        match: 3.0.2
 
   monite-openapi-path-version-number:
     message: Version numbers (like "/v1") should be in "servers", not in "paths"
