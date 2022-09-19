@@ -6,6 +6,7 @@
 
 functions:
   - check-spelling
+  - check-spelling-code
 
 rules:
 
@@ -17,7 +18,7 @@ rules:
       - "$.paths.*.*.parameters[?(@.in==='query' || @.in==='path' || @.in==='cookie')].name"
       - "$..properties.*~"
     then:
-      function: check-spelling
+      function: check-spelling-code
 
   monite-language-spelling-texts:
     message: "{{error}}"

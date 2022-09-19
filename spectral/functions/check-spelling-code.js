@@ -1,11 +1,11 @@
 const spellChecker = require('spellchecker');
-const exceptions = ["Jinja2","bic","iban"];
+const exceptions = ["bic","datetime","gt","gte","icontains","iban","isnull","lt","lte","md5","mimetype","oid","userpic"];
 
-const separatorsRegex = /\s/     // any whitespace
+const codeStyleRegex = /[_]/        // snake_case
 
 export default (input) => {
 
-  const words = input.split(separatorsRegex);
+  const words = input.split(codeStyleRegex);
   const mistakes = words
     .filter((word) => !exceptions.includes(word))
     .filter((word) => spellChecker.isMisspelled(word));
