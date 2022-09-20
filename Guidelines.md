@@ -1229,7 +1229,6 @@ Currently, this list is the following:
 - '405' (Method Not Allowed)
 - '406' (Not Acceptable)
 - '409' (Conflict)
-- '416' (Range Not Satisfiable)
 - '422' (Unprocessable Content)
 - '500' (Internal Server Error)
 
@@ -1237,41 +1236,78 @@ Currently, this list is the following:
 
 For `GET` responses, only the following codes are allowed:
 
-| **Code** | **Comment**                                           | `GET /resources` | `GET /resources/{id}` |
-|----------|-------------------------------------------------------|------------------|-----------------------|
-| 200      | To return a resource or a list of resources           | :+1:             | :+1:                  |
-| 400      | To indicate an error with parsing a request           | :+1:             | :+1:                  |
-| 401      | To respond to unauthorized requests                   | :+1:             | :+1:                  |
-| 403      | To indicate that accessing a resource is forbidden    | :+1:             | :+1:                  |
-| 404      | To indicate that an individual resource is not found  |                  | :+1:                  |
-| 405      | To indicate that the requested method is not allowed  | :+1:             | :+1:                  |
-| 422      | To indicate that submitted values cannot be processed | :+1:             | :+1:                  |
-| 500      | To inform about an internal error on a platform side  | :+1:             | :+1:                  |
+| **Code** | **Comment**                                           | `GET /resources`   | `GET /resources/{id}` |
+|----------|-------------------------------------------------------|--------------------|-----------------------|
+| 200      | To return a resource or a list of resources           | :white_check_mark: | :white_check_mark:    |
+| 400      | To indicate an error with parsing a request           | :white_check_mark: | :white_check_mark:    |
+| 401      | To respond to unauthorized requests                   | :white_check_mark: | :white_check_mark:    |
+| 403      | To indicate that accessing a resource is forbidden    | :white_check_mark: | :white_check_mark:    |
+| 404      | To indicate that an individual resource is not found  |                    | :white_check_mark:    |
+| 405      | To indicate that the requested method is not allowed  | :white_check_mark: | :white_check_mark:    |
+| 422      | To indicate that submitted values cannot be processed | :white_check_mark: | :white_check_mark:    |
+| 500      | To inform about an internal error on a platform side  | :white_check_mark: | :white_check_mark:    |
 
 ### MUST return the predefined set of HTTP status codes for POST
 
 For `POST` responses, only the following codes are allowed:
 
-| **Code** | **Comment**                                                                    | `POST /resources` | `POST /resources/{id}/action` |
-|----------|--------------------------------------------------------------------------------|-------------------|-------------------------------|
-| 200      | To indicate that an action was successfully performed                          |                   | :+1:                          |
-| 201      | To return a created resource                                                   | :+1:              |                               |
-| 202      | To indicate that the request was accepted and will be performed asynchronously | :+1:              | :+1:                          |
-| 400      | To indicate an error with parsing a request                                    | :+1:              | :+1:                          |
-| 401      | To respond to unauthorized requests                                            | :+1:              | :+1:                          |
-| 403      | To indicate that accessing a resource is forbidden                             | :+1:              | :+1:                          |
-| 404      | To indicate that an individual resource is not found                           |                   | :+1:                          |
-| 405      | To indicate that the requested method is not allowed                           | :+1:              | :+1:                          |
-| 422      | To indicate that submitted values cannot be processed                          | :+1:              | :+1:                          |
-| 500      | To inform about an internal error on a platform side                           | :+1:              | :+1:                          |
+| **Code** | **Comment**                                                                    | `POST /resources`  | `POST /resources/{id}/action` |
+|----------|--------------------------------------------------------------------------------|--------------------|-------------------------------|
+| 200      | To indicate that an action was successfully performed                          |                    | :white_check_mark:            |
+| 201      | To return a created resource                                                   | :white_check_mark: |                               |
+| 202      | To indicate that the request was accepted and will be performed asynchronously | :white_check_mark: | :white_check_mark:            |
+| 400      | To indicate an error with parsing a request                                    | :white_check_mark: | :white_check_mark:            |
+| 401      | To respond to unauthorized requests                                            | :white_check_mark: | :white_check_mark:            |
+| 403      | To indicate that accessing a resource is forbidden                             | :white_check_mark: | :white_check_mark:            |
+| 404      | To indicate that an individual resource is not found                           |                    | :white_check_mark:            |
+| 405      | To indicate that the requested method is not allowed                           | :white_check_mark: | :white_check_mark:            |
+| 422      | To indicate that submitted values cannot be processed                          | :white_check_mark: | :white_check_mark:            |
+| 500      | To inform about an internal error on a platform side                           | :white_check_mark: | :white_check_mark:            |
 
 ### MUST return the predefined set of HTTP status codes for PATCH
 
+For `PATCH` responses, only the following codes are allowed:
+
+| **Code** | **Comment**                                           | 
+|----------|-------------------------------------------------------|
+| 200      | To return a resource                                  | 
+| 400      | To indicate an error with parsing a request           | 
+| 401      | To respond to unauthorized requests                   | 
+| 403      | To indicate that accessing a resource is forbidden    | 
+| 404      | To indicate that an individual resource is not found  | 
+| 405      | To indicate that the requested method is not allowed  | 
+| 422      | To indicate that submitted values cannot be processed | 
+| 500      | To inform about an internal error on a platform side  | 
 
 ### MUST return the predefined set of HTTP status codes for PUT
 
+For `PUT` responses, only the following codes are allowed:
+
+| **Code** | **Comment**                                           | 
+|----------|-------------------------------------------------------|
+| 200      | To return a resource                                  | 
+| 400      | To indicate an error with parsing a request           | 
+| 401      | To respond to unauthorized requests                   | 
+| 403      | To indicate that accessing a resource is forbidden    | 
+| 404      | To indicate that an individual resource is not found  | 
+| 405      | To indicate that the requested method is not allowed  | 
+| 422      | To indicate that submitted values cannot be processed | 
+| 500      | To inform about an internal error on a platform side  | 
 
 ### MUST return the predefined set of HTTP status codes for DELETE
+
+For `DELETE` responses, only the following codes are allowed:
+
+| **Code** | **Comment**                                           | 
+|----------|-------------------------------------------------------|
+| 204      | To indicate that resource deletion was successful     | 
+| 400      | To indicate an error with parsing a request           | 
+| 401      | To respond to unauthorized requests                   | 
+| 403      | To indicate that accessing a resource is forbidden    | 
+| 404      | To indicate that an individual resource is not found  | 
+| 405      | To indicate that the requested method is not allowed  | 
+| 422      | To indicate that submitted values cannot be processed | 
+| 500      | To inform about an internal error on a platform side  | 
 
 
 ## Section 10: HTTP headers
