@@ -1212,7 +1212,7 @@ For example, in case of a resource not found, we must return 404 (Not Found) and
 
 This way we can ensure that our API behavior is predictable and consistent for API clients.
 
-### SHOULD use only the limited set of HTTP status codes
+### SHOULD use the limited set of HTTP status codes
 
 To minimize the amount of HTTP status codes that our clients need to process, we should stick to a limited subset of codes that make sense to use for our API.
 
@@ -1232,6 +1232,30 @@ Currently, this list is the following:
 - '416' (Range Not Satisfiable)
 - '422' (Unprocessable Content)
 - '500' (Internal Server Error)
+
+### MUST return the predefined set of HTTP status codes for GET
+
+For `GET` responses, only the following codes are allowed:
+
+| **Code** | **Comment**                                           | `GET /resources` | `GET /resources/{id}` |
+|----------|-------------------------------------------------------|------------------|-----------------------|
+| 200      | To return a resource or a list of resources           | :+1              | :+1                   |
+| 400      | To indicate an error with parsing a request           | :+1              | :+1                   |
+| 404      | To indicate when an individual resource is not found  |                  | :+1                   |
+| 405      | To indicate that the requested method is not allowed  | :+1              | :+1                   |
+| 422      | To indicate that submitted values cannot be processed | :+1              | :+1                   |
+| 500      | To inform about an internal error on a platform side  | :+1              | :+1                   |
+
+### MUST return the predefined set of HTTP status codes for POST
+
+
+### MUST return the predefined set of HTTP status codes for PATCH
+
+
+### MUST return the predefined set of HTTP status codes for PUT
+
+
+### MUST return the predefined set of HTTP status codes for DELETE
 
 
 ## Section 10: HTTP headers

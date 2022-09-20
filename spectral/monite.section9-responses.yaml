@@ -74,6 +74,22 @@ rules:
           - application/xml
           - multipart/form-data
 
+  monite-responses-get-200-status-code:
+    message: A GET operation must have a 200 status code for the response
+    severity: error
+    given: "$.paths[*].get.responses"
+    then:
+      field: '200'
+      function: truthy
+
+  monite-responses-get-200-media-type:
+    message: A GET operation should have an application/json media type for 200 response
+    severity: warn
+    given: "$paths.get.responses.200.content"
+    then:
+      field: application/json
+      function: truthy
+
   monite-responses-get-no-409:
     message: GET responses should not include a 409 response
     severity: warn
@@ -81,61 +97,13 @@ rules:
     then:
       function: falsy
 
-  monite-responses-delete-204-status-code:
-    message: A DELETE operation should have a 204 status code with the response
+  monite-responses-post-201-status-code:
+    message: A POST operation should have a 201 status code for the response
     severity: warn
-    given: "$.paths[*].delete.responses"
+    given: "$.paths[*].post.responses"
     then:
-      field: '204'
+      field: '201'
       function: truthy
-
-  monite-responses-delete-500-status-code:
-    message: A DELETE operation should have a 500 status code with the response
-    severity: warn
-    given: "$.paths[*].delete.responses"
-    then:
-      field: '500'
-      function: truthy
-
-  monite-responses-get-200-media-type:
-    message: A GET operation should have an application/json media type for 200 response
-    severity: error
-    given: "$paths.get.responses.200.content"
-    then:
-      field: application/json
-      function: truthy
-
-  monite-responses-get-200-status-code:
-    message: A GET operation should have a 200 status code for the response
-    severity: warn
-    given: "$.paths[*].get.responses"
-    then:
-      field: '200'
-      function: truthy
-
-  monite-responses-get-500-problem-json-media-type:
-    message: A POST operation should have an application/problem+json media type for 500 response
-    severity: error
-    given: "$paths.post.responses.500.content"
-    then:
-      field: application/problem+json
-      function: truthy
-
-  monite-responses-get-500-status-code:
-    message: A GET operation should have a 500 status code for the response
-    severity: warn
-    given: "$.paths[*].get.responses"
-    then:
-      field: '500'
-      function: truthy
-
-  monite-responses-patch-204-no-body:
-    message: A PATCH operation should not have a response body
-    severity: error
-    given: "$paths.patch.responses.204"
-    then:
-      field: content
-      function: falsy
 
   monite-responses-post-201-media-type:
     message: POST responses should have a JSON body
@@ -143,14 +111,6 @@ rules:
     given: "$paths.post.responses.201.content"
     then:
       field: application/json
-      function: truthy
-
-  monite-responses-post-201-status-code:
-    message: A POST operation should have a 201 status code for the response
-    severity: warn
-    given: "$.paths[*].post.responses"
-    then:
-      field: '201'
       function: truthy
 
   monite-responses-put-204-status-code:
@@ -167,4 +127,12 @@ rules:
     given: "$.paths[*].put.responses"
     then:
       field: '500'
+      function: truthy
+
+  monite-responses-delete-204-status-code:
+    message: A DELETE operation should have a 204 status code with the response
+    severity: warn
+    given: "$.paths[*].delete.responses"
+    then:
+      field: '204'
       function: truthy
