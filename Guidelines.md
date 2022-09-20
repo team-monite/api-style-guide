@@ -788,7 +788,7 @@ For date-time properties we want to use the "_at" suffix, preceded by a verb in 
 
 ### SHOULD support the following HTTP methods
 
-We allow one or several HTTP methods to be used with different parts of our REST APIs.
+In our REST APIs, an operation can use the following HTTP methods:
 
 * `POST` – to create new resources or perform an action on a resource.
 * `GET` – to return a resource or collection of resources.
@@ -797,6 +797,11 @@ We allow one or several HTTP methods to be used with different parts of our REST
 * `DELETE` – to delete a resource. **Note**: always evaluate if this method is needed for real use cases or not; and when it's really needed, consider using the "soft delete" technique.
 
 For more specific guidance on how to use these HTTP methods, refer to the corresponding rule in this section.
+
+### MAY use other HTTP methods
+
+When necessary, it is allowed to use other HTTP methods (for example, the `OPTIONS` method for pre-flight requests to support [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)).
+
 
 ### MUST create resources via POST to a collection
 
