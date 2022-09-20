@@ -5,10 +5,7 @@ const separatorsRegex = /\s/     // any whitespace
 
 export default (input) => {
 
-  const words = input.split(separatorsRegex);
-  words.forEach(function(part, index, theArray) {
-    theArray[index] = part.replace(/`/g, '');
-  });
+  const words = input.replace(/`/g, '').split(separatorsRegex);
   const mistakes = words
     .filter((word) => !exceptions.includes(word))
     .filter((word) => spellChecker.isMisspelled(word));
