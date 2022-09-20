@@ -1198,7 +1198,40 @@ curl -X DELETE https://api.example.com/v1/resources
 
 ## Section 9: HTTP status codes and responses
 
-Work in progress...
+### MUST use only standard HTTP status codes
+
+Our APIs must use only HTTP status codes that are defined by [RFC 9110](https://httpwg.org/specs/rfc9110.html#overview.of.status.codes).
+
+Creating custom status codes is not allowed.
+
+### MUST use standard HTTP status codes properly
+
+When using standard HTTP status codes, we must return them to identify the use cases according to the [RFC 9110](https://httpwg.org/specs/rfc9110.html#overview.of.status.codes) standard.
+
+For example, in case of a resource not found, we must return 404 (Not Found) and not something different.
+
+This way we can ensure that our API behavior is predictable and consistent for API clients.
+
+### SHOULD use only the limited set of HTTP status codes
+
+To minimize the amount of HTTP status codes that our clients need to process, we should stick to a limited subset of codes that make sense to use for our API.
+
+Currently, this list is the following:
+
+- '200' (OK)
+- '201' (Created)
+- '202' (Accepted)
+- '204' (No Content)
+- '400' (Bad Request)
+- '401' (Unauthorized)
+- '403' (Forbidden)
+- '404' (Not Found)
+- '405' (Method Not Allowed)
+- '406' (Not Acceptable)
+- '409' (Conflict)
+- '416' (Range Not Satisfiable)
+- '422' (Unprocessable Content)
+- '500' (Internal Server Error)
 
 
 ## Section 10: HTTP headers
