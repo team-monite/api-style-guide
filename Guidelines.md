@@ -1239,15 +1239,31 @@ For `GET` responses, only the following codes are allowed:
 
 | **Code** | **Comment**                                           | `GET /resources` | `GET /resources/{id}` |
 |----------|-------------------------------------------------------|------------------|-----------------------|
-| 200      | To return a resource or a list of resources           | :+1              | :+1                   |
-| 400      | To indicate an error with parsing a request           | :+1              | :+1                   |
-| 404      | To indicate when an individual resource is not found  |                  | :+1                   |
-| 405      | To indicate that the requested method is not allowed  | :+1              | :+1                   |
-| 422      | To indicate that submitted values cannot be processed | :+1              | :+1                   |
-| 500      | To inform about an internal error on a platform side  | :+1              | :+1                   |
+| 200      | To return a resource or a list of resources           | :+1:             | :+1:                  |
+| 400      | To indicate an error with parsing a request           | :+1:             | :+1:                  |
+| 401      | To respond to unauthorized requests                   | :+1:             | :+1:                  |
+| 403      | To indicate that accessing a resource is forbidden    | :+1:             | :+1:                  |
+| 404      | To indicate that an individual resource is not found  |                  | :+1:                  |
+| 405      | To indicate that the requested method is not allowed  | :+1:             | :+1:                  |
+| 422      | To indicate that submitted values cannot be processed | :+1:             | :+1:                  |
+| 500      | To inform about an internal error on a platform side  | :+1:             | :+1:                  |
 
 ### MUST return the predefined set of HTTP status codes for POST
 
+For `POST` responses, only the following codes are allowed:
+
+| **Code** | **Comment**                                                                    | `POST /resources` | `POST /resources/{id}/action` |
+|----------|--------------------------------------------------------------------------------|-------------------|-------------------------------|
+| 200      | To indicate that an action was successfully performed                          |                   | :+1:                          |
+| 201      | To return a created resource                                                   | :+1:              |                               |
+| 202      | To indicate that the request was accepted and will be performed asynchronously | :+1:              | :+1:                          |
+| 400      | To indicate an error with parsing a request                                    | :+1:              | :+1:                          |
+| 401      | To respond to unauthorized requests                                            | :+1:              | :+1:                          |
+| 403      | To indicate that accessing a resource is forbidden                             | :+1:              | :+1:                          |
+| 404      | To indicate that an individual resource is not found                           |                   | :+1:                          |
+| 405      | To indicate that the requested method is not allowed                           | :+1:              | :+1:                          |
+| 422      | To indicate that submitted values cannot be processed                          | :+1:              | :+1:                          |
+| 500      | To inform about an internal error on a platform side                           | :+1:              | :+1:                          |
 
 ### MUST return the predefined set of HTTP status codes for PATCH
 
