@@ -5,7 +5,7 @@ To access the complete Monite API Style Guide, please see [Guidelines](Guideline
 
 ## Purpose
 
-As an API-First company, we put extremely high expectations on the quality of our APIs. That's why we need to have solid guidance on how we should build our APIs, how they should behave, and why we are making certain choices around our APIs.
+As an API-First company, we put extremely high expectations on the quality of [our APIs](https://docs.monite.com/reference/). That's why we need to have solid guidance on how we should build our APIs, how they should behave, and why we are making certain choices around our APIs.
 
 Although there are already a lot of good APIs and knowledge around building APIs in the industry, there is no single standard way of building Web APIs. This means that every company needs to make their own choices on what makes their API good, and we are not an exception to that.
 
