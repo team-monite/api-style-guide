@@ -1,8 +1,8 @@
-# ###################################################################################################
-# Section 16: Deprecation                                                                           #
-# This ruleset covers the Deprecation rules from the Monite API Style guide                         #
+# ###############################################################################################
+# Section 16: Deprecation                                                                       #
+# This ruleset covers the Deprecation rules from the Monite API Style guide                     #
 # https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-16-deprecation #
-# ###################################################################################################
+# ###############################################################################################
 
 rules:
 

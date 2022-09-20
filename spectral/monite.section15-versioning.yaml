@@ -1,8 +1,8 @@
-# ################################################################################################################
-# Section 15: Compatibility & versioning                                                                         #
-# This ruleset covers the Versioning rules from the Monite API Style guide                                       #
+# ############################################################################################################
+# Section 15: Compatibility & versioning                                                                     #
+# This ruleset covers the Versioning rules from the Monite API Style guide                                   #
 # https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-15-compatibility-versioning #
-# ################################################################################################################
+# ############################################################################################################
 
 rules:
 

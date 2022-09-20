@@ -1,8 +1,8 @@
-# ###########################################################################################
-# Section 5: URIs                                                                           #
-# This ruleset covers the URI rules from the Monite API Style guide                         #
+# #######################################################################################
+# Section 5: URIs                                                                       #
+# This ruleset covers the URI rules from the Monite API Style guide                     #
 # https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-5-uris #
-# ###########################################################################################
+# #######################################################################################
 
 rules:
 

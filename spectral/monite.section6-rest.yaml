@@ -1,8 +1,8 @@
-# #####################################################################################################
-# Section 6: REST & Resources                                                                         #
-# This ruleset covers the REST & Resources rules from the Monite API Style guide                      #
+# #################################################################################################
+# Section 6: REST & Resources                                                                     #
+# This ruleset covers the REST & Resources rules from the Monite API Style guide                  #
 # https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-6-rest-resources #
-# #####################################################################################################
+# #################################################################################################
 
 rules:
 

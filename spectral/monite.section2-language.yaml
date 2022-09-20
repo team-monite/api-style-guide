@@ -1,8 +1,8 @@
-# ###############################################################################################
-# Section 2: Language                                                                           #
-# This ruleset covers the Language rules from the Monite API Style guide                        #
+# ###########################################################################################
+# Section 2: Language                                                                       #
+# This ruleset covers the Language rules from the Monite API Style guide                    #
 # https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-2-language #
-# ###############################################################################################
+# ###########################################################################################
 
 functions:
   - check-spelling

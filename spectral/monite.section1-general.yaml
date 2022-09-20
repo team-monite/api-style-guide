@@ -1,8 +1,8 @@
-# ##############################################################################################
-# Section 1: General                                                                           #
-# This ruleset covers the General rules from the Monite API Style guide                        #
+# ##########################################################################################
+# Section 1: General                                                                       #
+# This ruleset covers the General rules from the Monite API Style guide                    #
 # https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-1-general #
-# ##############################################################################################
+# ##########################################################################################
 
 rules:
 

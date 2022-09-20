@@ -1,8 +1,8 @@
-# #############################################################################################################
-# Section 4: Data types and formats                                                                           #
-# This ruleset covers the Data Types rules from the Monite API Style guide                                    #
+# #########################################################################################################
+# Section 4: Data types and formats                                                                       #
+# This ruleset covers the Data Types rules from the Monite API Style guide                                #
 # https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-4-data-types-and-formats #
-# #############################################################################################################
+# #########################################################################################################
 
 rules:
 

@@ -1,8 +1,8 @@
-# ####################################################################################################
-# Section 8: HTTP requests                                                                           #
-# This ruleset covers the HTTP requests rules from the Monite API Style guide                        #
+# ################################################################################################
+# Section 8: HTTP requests                                                                       #
+# This ruleset covers the HTTP requests rules from the Monite API Style guide                    #
 # https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-8-http-requests #
-# ####################################################################################################
+# ################################################################################################
 
 rules:
 

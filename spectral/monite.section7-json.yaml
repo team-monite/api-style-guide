@@ -1,8 +1,8 @@
-# ###################################################################################################
-# Section 7: JSON payload                                                                           #
-# This ruleset covers the JSON payload rules from the Monite API Style guide                        #
+# ###############################################################################################
+# Section 7: JSON payload                                                                       #
+# This ruleset covers the JSON payload rules from the Monite API Style guide                    #
 # https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-7-json-payload #
-# ###################################################################################################
+# ###############################################################################################
 
 functions:
   - is-object-schema
