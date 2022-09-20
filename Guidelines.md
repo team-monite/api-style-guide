@@ -448,13 +448,10 @@ Spectral rules:
 
 When designing a REST API, always start with identifying resources – the main notions (objects) around which an API client performs various actions. These actions can be either CRUD (typically represented with POST/GET/PATCH/DELETE HTTP methods), or some other (e.g. resulting in changing a resource's state).
 
->>>
-The key abstraction of information in REST is a resource. Any information that can be named can be a resource: a document or image, a temporal service (e.g. "today's weather in Los Angeles"), a collection of other resources, a non-virtual object (e.g., a person), and so on.
+> The key abstraction of information in REST is a resource. Any information that can be named can be a resource: a document or image, a temporal service (e.g. "today's weather in Los Angeles"), a collection of other resources, a non-virtual object (e.g., a person), and so on.
+> In other words, any concept that might be the target of an author's hypertext reference must fit within the definition of a resource.
+> A resource is a conceptual mapping to a set of entities, not the entity that corresponds to the mapping at any particular point in time.
 
-In other words, any concept that might be the target of an author's hypertext reference must fit within the definition of a resource.
-
-A resource is a conceptual mapping to a set of entities, not the entity that corresponds to the mapping at any particular point in time.
->>>
 ([Roy Fielding's dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#sec_5_2_1_1))
 
 #### Collection and singleton resources
