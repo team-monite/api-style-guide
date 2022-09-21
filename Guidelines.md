@@ -1342,7 +1342,7 @@ We should send webhooks only to endpoints that are secured with any of the moder
 
 Links to other resources must always use full absolute URIs.
 
-This makes it easier for API clients resolve the URIs and retrieve relevant resources.
+This makes it easier for API clients to resolve the URIs and retrieve relevant resources.
 
 
 ## Section 13: Performance
