@@ -1,8 +1,8 @@
-# ##################################################################################################################
-# Section 9: HTTP responses                                                                                        #
-# This ruleset covers the HTTP responses rules from the Monite API Style guide                                     #
-# https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-9-http-status-codes-and-responses #
-# ##################################################################################################################
+# #################################################################################################
+# Section 9: HTTP responses                                                                       #
+# This ruleset covers the HTTP responses rules from the Monite API Style guide                    #
+# https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#section-9-http-responses #
+# #################################################################################################
 
 rules:
 

@@ -1196,7 +1196,7 @@ curl -X DELETE https://api.example.com/v1/resources
 ```
 
 
-## Section 9: HTTP status codes and responses
+## Section 9: HTTP responses
 
 ### MUST use only standard HTTP status codes
 
