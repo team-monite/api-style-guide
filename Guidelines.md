@@ -1338,24 +1338,46 @@ We should send webhooks only to endpoints that are secured with any of the moder
 
 ## Section 12: Hypermedia
 
-Work in progress...
+### SHOULD use absolute URIs for links to other resources
+
+Links to other resources must always use full absolute URIs.
+
+This makes it easier for API clients resolve the URIs and retrieve relevant resources.
 
 
 ## Section 13: Performance
 
-Work in progress...
+### MUST protect API behind authentication
+
+### MUST implement rate limiting
+
+### SHOULD support pagination
+
+### SHOULD provide regional access points
 
 
 ## Section 14: Pagination
 
-Work in progress...
+### SHOULD prefer cursor-based pagination over offset-based pagination
+
+### MUST use consistent names for fields that implement pagination
 
 
 ## Section 15: Compatibility & Versioning
 
-Work in progress...
+### MUST support versioning
+
+### SHOULD avoid breaking changes
+
+### SHOULD treat adding optional API elements as non-breaking changes
+
+### SHOULD treat renamings and deletion of API elements as breaking changes
+
+### SHOULD support API clients in handling breaking changes
 
 
 ## Section 16: Deprecation
 
-Work in progress...
+### SHOULD inform API clients about API elements being deprecated
+
+### SHOULD remove deprecated API elements over time
