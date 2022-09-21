@@ -1312,7 +1312,15 @@ For `DELETE` responses, only the following codes are allowed:
 
 ## Section 10: HTTP headers
 
-Work in progress...
+### MUST use lower kebab-case for HTTP header names
+
+We restrict HTTP header names to ASCII kebab-case strings.
+
+| :x: &nbsp; Not recommended | :+1: &nbsp; Recommended |
+|----------------------------|-------------------------|
+| X_Monite_Entity_ID         | x-monite-entity-id      |
+
+Spectral rule: [monite-headers-kebab-case](spectral/monite.section10-headers.yaml)
 
 
 ## Section 11: Webhooks
