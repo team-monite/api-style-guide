@@ -1325,7 +1325,15 @@ Spectral rule: [monite-headers-kebab-case](spectral/monite.section10-headers.yam
 
 ## Section 11: Webhooks
 
-Work in progress...
+### MUST send webhooks only via HTTPs with TLS 1.2+
+
+Webhooks payloads can contain sensitive information, which must never be available to any party between a webhook sender and a webhook receiver. 
+
+For this reason, we must send webhooks to our API clients only via an encrypted TLS connection.
+
+### SHOULD send webhooks only to endpoints that require authentication
+
+We should send webhooks only to endpoints that are secured with any of the modern authentication methods.
 
 
 ## Section 12: Hypermedia
