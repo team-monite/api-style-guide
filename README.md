@@ -47,10 +47,11 @@ npm install spellchecker
 
 After that, you are ready to validate your OpenAPI file with the rulesets in this repository:
 
-``` bash
+```bash
 spectral lint spectral/test-openapi.yaml -r spectral/monite.all.yaml
 ```
 
+For more detailed guidance on how to automate your style guide, see [Spectral](Spectral.md).
 
 ## Contributing
 
