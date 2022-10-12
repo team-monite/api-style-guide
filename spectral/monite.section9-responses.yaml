@@ -116,7 +116,7 @@ rules:
   monite-responses-put-204-status-code:
     message: A PUT operation should have a 204 status code for the response
     severity: warn
-    given: "$.paths[*].delete.responses"
+    given: "$.paths[*].put.responses"
     then:
       field: '204'
       function: truthy
