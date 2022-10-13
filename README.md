@@ -71,15 +71,25 @@ There are a lot of other resources created and shared by some companies and API 
 
 The list below is not the most comprehensive list of other API style guides, but can give you good insights on where else you can look for inspiration.
 
+## Spectral Rulesets
+
+* [Spectral Rulesets Directory](https://github.com/stoplightio/spectral-rulesets)
+* [APIs You Won't Hate: Spectral Style Guide](https://github.com/apisyouwonthate/style-guide)
+* [Stoplight OWASP API Security Ruleset](https://github.com/stoplightio/spectral-owasp-ruleset)
+
+## Organization Style Guides
+
 * [Zalando RESTful API and Event Guidelines](https://opensource.zalando.com/restful-api-guidelines/)
+* [Spectral Spelling and Grammar Ruleset](https://github.com/api-stuff/spectral-spelling-grammar)
 * [Microsoft REST API Guidelines](https://github.com/microsoft/api-guidelines)
 * [adidas API Guidelines](https://adidas.gitbook.io/api-guidelines)
+
+## Other Style Guide Resources
+
 * [Google API Improvement Proposals](https://google.aip.dev/)
 * [API style book](http://apistylebook.com/design/guidelines/)
 * [SAP API Style Guide](https://help.sap.com/viewer/53e39c8b7c924c28a2575be50bc09786/PUBLIC/en-US/01e4b09a0bb24235b3618deb0618e1af.html)
 * [API Style Guides | Guidelines and Best Practices](https://stoplight.io/api-style-guides-guidelines-and-best-practices/)
-* [OpenAPI Community Style Guide](https://github.com/openapi-contrib/style-guides)
-* [Spectral Spelling and Grammar Ruleset](https://github.com/api-stuff/spectral-spelling-grammar)
 * [Postman Open Technologies - Governance Rules](https://www.postman.com/postman/workspace/postman-open-technologies-governance-rules/overview)
 * [API Guidelines in the Wild](https://dret.github.io/guidelines/)
 
