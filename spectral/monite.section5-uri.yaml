@@ -61,10 +61,10 @@ rules:
         match: ^(([\/a-z][_a-z0-9\/]*)?({[^}]*})?)+$
 
   monite-uri-query-parameters-snake-case:
-    message: Query parameters must be snake_case
+    message: Query parameters must be snake_case, with optional dots as delimiters
     severity: error
     given: "$.paths.*.*.parameters[?(@.in=='query')].name"
     then:
       function: pattern
       functionOptions:
-        match: ^[a-z][_a-z0-9]*$
+        match: ^[a-z][a-z0-9]*(?:[_.]{1,2}[a-z0-9]+)*$
