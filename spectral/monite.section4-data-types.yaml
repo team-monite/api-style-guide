@@ -67,4 +67,5 @@ rules:
           - lang
           - country
           - currency
+          - color
 
