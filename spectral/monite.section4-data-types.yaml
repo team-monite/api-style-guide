@@ -35,7 +35,7 @@ rules:
           - int64
 
   monite-data-incorrect-number-format:
-    message: "Incorrect integer format: {{value}}. Must be one of: float, double"
+    message: "Incorrect number format: {{value}}. Must be one of: float, double"
     severity: error
     given: '$..[?(@.type=="number")]'
     then:
@@ -47,7 +47,7 @@ rules:
           - double
 
   monite-data-incorrect-string-format:
-    message: "Incorrect integer format: {{value}}. See https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#must-use-only-allowed-data-types"
+    message: "Incorrect string format: {{value}}. See https://github.com/team-monite/api-style-guide/blob/main/Guidelines.md#must-use-only-allowed-data-types"
     severity: warn
     given: '$..[?(@.type=="string")]'
     then:
