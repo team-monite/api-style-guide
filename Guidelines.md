@@ -14,6 +14,32 @@ or security considerations require us to do so.
 * Mostly snake_case
 * API First, based on OpenAPI
 
+## Quick Reference
+
+### Naming Conventions
+| Element      | Convention            | Example                                |
+|--------------|-----------------------|----------------------------------------|
+| URIs         | lowercase, snake_case | `/v1/customer_orders`                  |
+| Field names  | snake_case            | `customer_name`                        |
+| HTTP headers | kebab-case            | `x-monite-entity-id`                   |
+| Resource IDs | opaque strings        | `e675f59e-ddd1-4835-8bc2-edd76c54fad4` |
+
+### HTTP Methods
+| Method | Purpose                     | Status Codes                                     |
+|--------|-----------------------------|--------------------------------------------------|
+| GET    | Retrieve resources          | 200, 400, 401, 403, 404, 405, 422, 500           |
+| POST   | Create resources or actions | 200, 201, 202, 400, 401, 403, 404, 405, 422, 500 |
+| PATCH  | Partial updates             | 200, 400, 401, 403, 404, 405, 422, 500           |
+| PUT    | Replace resources           | 200, 400, 401, 403, 404, 405, 422, 500           |
+| DELETE | Delete resources            | 204, 400, 401, 403, 404, 405, 422, 500           |
+
+### Common Data Types
+| Type      | OpenAPI Format                                | Example                                      |
+|-----------|-----------------------------------------------|----------------------------------------------|
+| Money     | `object` with `amount` (int64) and `currency` | `{"amount": 1000, "currency": "EUR"}`        |
+| Address   | `object` with standard fields                 | `{"line1": "123 Main St", "city": "Berlin"}` |
+| Date/Time | `string` with `date-time` format              | `"2022-07-17T08:26:40.252Z"`                 |
+| UUID      | `string` with `uuid` format                   | `"279fc665-d04d-4dba-bcad-17c865489dfa"`     |
 
 ## Requirement level keywords
 
