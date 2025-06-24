@@ -5,6 +5,28 @@ to our public and internal APIs to make it easier for us to achieve consistency 
 the get go. However, we can sometimes apply certain rules differently to our internal APIs, if our technology
 or security considerations require us to do so.
 
+## Table of Contents
+
+- [Summary](#summary)
+- [Requirement Level Keywords](#requirement-level-keywords)
+- [Quick Reference](#quick-reference)
+- [Section 1: General](#section-1-general)
+- [Section 2: Language](#section-2-language)
+- [Section 3: Security](#section-3-security)
+- [Section 4: Data Types and Formats](#section-4-data-types-and-formats)
+- [Section 5: URIs](#section-5-uris)
+- [Section 6: REST & Resources](#section-6-rest--resources)
+- [Section 7: JSON Payload](#section-7-json-payload)
+- [Section 8: HTTP Requests](#section-8-http-requests)
+- [Section 9: HTTP Responses](#section-9-http-responses)
+- [Section 10: HTTP Headers](#section-10-http-headers)
+- [Section 11: Webhooks](#section-11-webhooks)
+- [Section 12: Hypermedia](#section-12-hypermedia)
+- [Section 13: Performance](#section-13-performance)
+- [Section 14: Pagination](#section-14-pagination)
+- [Section 15: Compatibility & Versioning](#section-15-compatibility--versioning)
+- [Section 16: Deprecation](#section-16-deprecation)
+
 
 ## Summary
 
