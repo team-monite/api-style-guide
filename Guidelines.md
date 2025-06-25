@@ -47,13 +47,13 @@ or security considerations require us to do so.
 | Resource IDs | opaque strings        | `e675f59e-ddd1-4835-8bc2-edd76c54fad4` |
 
 ### HTTP Methods
-| Method | Purpose                     | Status Codes                                     |
-|--------|-----------------------------|--------------------------------------------------|
-| GET    | Retrieve resources          | 200, 400, 401, 403, 404, 405, 422, 500           |
-| POST   | Create resources or actions | 200, 201, 202, 400, 401, 403, 404, 405, 422, 500 |
-| PATCH  | Partial updates             | 200, 400, 401, 403, 404, 405, 422, 500           |
-| PUT    | Replace resources           | 200, 400, 401, 403, 404, 405, 422, 500           |
-| DELETE | Delete resources            | 204, 400, 401, 403, 404, 405, 422, 500           |
+| Method | Purpose                     | Status Codes                                          |
+|--------|-----------------------------|-------------------------------------------------------|
+| GET    | Retrieve resources          | 200, 400, 401, 403, 404, 405, 422, 500                |
+| POST   | Create resources or actions | 200, 201, 202, 400, 401, 403, 404, 405, 409, 422, 500 |
+| PATCH  | Partial updates             | 200, 400, 401, 403, 404, 405, 409, 422, 500           |
+| PUT    | Replace resources           | 200, 400, 401, 403, 404, 405, 422, 500                |
+| DELETE | Delete resources            | 204, 400, 401, 403, 404, 405, 422, 500                |
 
 ### Common Data Types
 | Type      | OpenAPI Format                                | Example                                      |
@@ -1299,33 +1299,35 @@ For `GET` responses, only the following codes are allowed:
 
 For `POST` responses, only the following codes are allowed:
 
-| **Code** | **Comment**                                                                    | `POST /resources`  | `POST /resources/{id}/action` |
-|----------|--------------------------------------------------------------------------------|--------------------|-------------------------------|
-| 200      | To indicate that an action was successfully performed                          |                    | :white_check_mark:            |
-| 201      | To return a created resource                                                   | :white_check_mark: |                               |
-| 202      | To indicate that the request was accepted and will be performed asynchronously | :white_check_mark: | :white_check_mark:            |
-| 400      | To indicate an error with parsing a request                                    | :white_check_mark: | :white_check_mark:            |
-| 401      | To respond to unauthorized requests                                            | :white_check_mark: | :white_check_mark:            |
-| 403      | To indicate that accessing a resource is forbidden                             | :white_check_mark: | :white_check_mark:            |
-| 404      | To indicate that an individual resource is not found                           |                    | :white_check_mark:            |
-| 405      | To indicate that the requested method is not allowed                           | :white_check_mark: | :white_check_mark:            |
-| 422      | To indicate that submitted values cannot be processed                          | :white_check_mark: | :white_check_mark:            |
-| 500      | To inform about an internal error on a platform side                           | :white_check_mark: | :white_check_mark:            |
+| **Code** | **Comment**                                                                                 | `POST /resources`  | `POST /resources/{id}/action` |
+|----------|---------------------------------------------------------------------------------------------|--------------------|-------------------------------|
+| 200      | To indicate that an action was successfully performed                                       |                    | :white_check_mark:            |
+| 201      | To return a created resource                                                                | :white_check_mark: |                               |
+| 202      | To indicate that the request was accepted and will be performed asynchronously              | :white_check_mark: | :white_check_mark:            |
+| 400      | To indicate an error with parsing a request                                                 | :white_check_mark: | :white_check_mark:            |
+| 401      | To respond to unauthorized requests                                                         | :white_check_mark: | :white_check_mark:            |
+| 403      | To indicate that accessing a resource is forbidden                                          | :white_check_mark: | :white_check_mark:            |
+| 404      | To indicate that an individual resource is not found                                        |                    | :white_check_mark:            |
+| 405      | To indicate that the requested method is not allowed                                        | :white_check_mark: | :white_check_mark:            |
+| 409      | To indicate that the requested action is conflicting with the current state of the resource |                    | :white_check_mark:            |
+| 422      | To indicate that submitted values cannot be processed                                       | :white_check_mark: | :white_check_mark:            |
+| 500      | To inform about an internal error on a platform side                                        | :white_check_mark: | :white_check_mark:            |
 
 ### MUST return the predefined set of HTTP status codes for PATCH
 
 For `PATCH` responses, only the following codes are allowed:
 
-| **Code** | **Comment**                                           | 
-|----------|-------------------------------------------------------|
-| 200      | To return a resource                                  | 
-| 400      | To indicate an error with parsing a request           | 
-| 401      | To respond to unauthorized requests                   | 
-| 403      | To indicate that accessing a resource is forbidden    | 
-| 404      | To indicate that an individual resource is not found  | 
-| 405      | To indicate that the requested method is not allowed  | 
-| 422      | To indicate that submitted values cannot be processed | 
-| 500      | To inform about an internal error on a platform side  | 
+| **Code** | **Comment**                                                                                 | 
+|----------|---------------------------------------------------------------------------------------------|
+| 200      | To return a resource                                                                        | 
+| 400      | To indicate an error with parsing a request                                                 | 
+| 401      | To respond to unauthorized requests                                                         | 
+| 403      | To indicate that accessing a resource is forbidden                                          | 
+| 404      | To indicate that an individual resource is not found                                        | 
+| 405      | To indicate that the requested method is not allowed                                        | 
+| 409      | To indicate that the requested update is conflicting with the current state of the resource |
+| 422      | To indicate that submitted values cannot be processed                                       | 
+| 500      | To inform about an internal error on a platform side                                        | 
 
 ### MUST return the predefined set of HTTP status codes for PUT
 
