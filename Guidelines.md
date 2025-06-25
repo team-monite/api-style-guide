@@ -1415,15 +1415,116 @@ This makes it easier for API clients to resolve the URIs and retrieve relevant r
 
 ## Section 15: Compatibility & Versioning
 
-### MUST support versioning
+### MUST support API versioning
 
-### SHOULD avoid breaking changes
+All APIs must support versioning to ensure backward compatibility and allow for evolution. When you connect to the Monite API platform, you always communicate with a specific version of the API. Having different API versions allows us to implement breaking changes in an API in a backward-compatible way, which gives API clients full control over when and how they want to switch their integration to a new API version.
 
-### SHOULD treat adding optional API elements as non-breaking changes
+### MUST use date-based versioning scheme
 
-### SHOULD treat renamings and deletion of API elements as breaking changes
+We provide version identifiers using the date-based pattern: `YYYY-MM-DD`, for example `2024-05-25` or `2024-01-31`.
 
-### SHOULD support API clients in handling breaking changes
+**Note**: All Monite API URLs also contain a `/v1` suffix in the URL path. Currently, we do not plan to change this suffix and therefore we simply reserve it for future use, for example, in case we need to significantly revamp the entirety of our API structures.
+
+### MUST require explicit version specification
+
+API clients must choose a specific API version by adding an `X-Monite-Version` HTTP header to every API request they send to the Monite API platform.
+
+**Example request:**
+```shell
+curl -X GET 'https://api.sandbox.monite.com/v1/entities' \
+-H 'X-Monite-Version: 2024-05-25' \
+-H 'Authorization: Bearer eyJ0eXAiOiJKV1Qi...5HHaosPfssfu0o'
+```
+
+**Example response header:**
+```
+X-Monite-Version: 2024-05-25
+```
+
+If an API client does not provide an explicit version via the `X-Monite-Version` HTTP request header, the API must return an HTTP 400 error:
+
+```json
+{
+  "error": {
+    "type": "missing_api_version",
+    "message": "Missing the x-monite-version HTTP header"
+  }
+}
+```
+
+### MUST support default API version setting
+
+In addition to the API version specified with each API call, there are cases when the API needs to perform various operations (such as asynchronous OCR) that require a defined API version. To specify this version, API clients must call `PATCH /settings` and set the desired value to the `api_version` setting.
+
+**Example:**
+```shell
+curl -X PATCH 'https://api.sandbox.monite.com/v1/settings' \
+-H 'X-Monite-Version: 2024-05-25' \
+-H 'Authorization: Bearer YOUR_PARTNER_TOKEN' \
+-H 'Content-Type: application/json' \
+-d '{
+  "api_version": "2024-05-25"
+}'
+```
+
+### MUST define breaking changes clearly
+
+Breaking changes are such changes in the API that require all API clients to modify their code to incorporate these changes. Examples include renaming and deletion of API elements, narrowing down certain requirements, as well as changes of the business logic that exceed the common expectations from a regular bug fix.
+
+**Breaking changes include:**
+- Renaming or deleting an API endpoint
+- Renaming or deleting a field in a request or response
+- Renaming or deleting an HTTP header (Note that HTTP headers are case-insensitive, so changing the letter case is not considered a breaking change)
+- Renaming or deleting a query parameter
+- Changing the data type of an API field, HTTP header, or query parameter
+- Changing the HTTP status code of a response
+- Making non-required fields, query parameters, or HTTP headers required in an API request
+- Narrowing down the range of allowed values for a field, query parameter, or an HTTP header in an API request
+- Significant change of a business logic that leads to the corresponding changes on the API client's side
+
+### MUST treat additive changes as non-breaking
+
+In JSON-based REST APIs, every additive change is typically considered to be non-breaking. API clients must program their implementations in a way that can handle new fields in API responses without causing any errors and exceptions.
+
+**Non-breaking changes include:**
+- Adding a new API endpoint
+- Adding a new optional field, query parameter, or HTTP header to an API request
+- Adding a new field or HTTP header to a response
+- Making required fields, query parameters, or HTTP headers non-required in an API request
+- Expanding the range of allowed values for a field, query parameter, or an HTTP header in an API request
+- Insignificant change of a business logic that does not require any changes on the API client's side
+- Changing the text of an error message in a response
+
+### SHOULD provide migration guidance
+
+We recommend that API clients always migrate to the latest version of the API, since this allows them to benefit from all the latest developments and functionality incorporated into these versions. However, we understand that sometimes migrating to a new API version might be complicated and requires additional efforts and preparations.
+
+**Migration steps for API clients:**
+1. Explore all the changes listed in breaking changes
+2. Update the `api_version` partner setting
+3. Migrate code to the new API version:
+   - Update the `X-Monite-Version` header value in all API calls
+   - Update the code to account for the breaking changes
+4. Test the changes in sandbox environment
+5. Deploy integration changes to production after ensuring no new errors
+
+### SHOULD provide changelog documentation
+
+API providers should maintain a detailed changelog that documents all changes between API versions, including both breaking and non-breaking changes. This helps API clients understand what has changed and plan their migrations accordingly.
+
+<details>
+  <summary>Why</summary>
+  <p>Versioning allows API providers to evolve their APIs while maintaining backward compatibility. This gives API clients control over when to adopt new features and ensures that existing integrations continue to work reliably.</p>
+</details>
+
+<details>
+  <summary>See also</summary>
+  <ul>
+    <li><a href="https://docs.monite.com/api/concepts/versioning">Monite API Versioning Documentation</a></li>
+    <li><a href="https://semver.org/">Semantic Versioning</a></li>
+    <li><a href="https://tools.ietf.org/html/rfc6648">RFC 6648 - Deprecating the "X-" Prefix</a></li>
+  </ul>
+</details>
 
 
 ## Section 16: Deprecation
